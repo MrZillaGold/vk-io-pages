@@ -1,0 +1,36 @@
+{
+  "name": "vk-io-pages",
+  "version": "1.0.0",
+  "description": "Модуль vk-io для создания динамических страниц",
+  "main": "./lib/PagesManager.js",
+  "exports": {
+    ".": {
+      "require": "./lib/PagesManager.js",
+      "default": "./src/PagesManager.mjs"
+    }
+  },
+  "module": "./src/PagesManager.mjs",
+  "scripts": {
+    "build": "babel src --out-dir lib"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/MrZillaGold/vk-io-pages.git"
+  },
+  "author": "MrZillaGold <Pronin Egor | mrzillagold@gmail.com>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/MrZillaGold/vk-io-pages/issues"
+  },
+  "homepage": "https://github.com/MrZillaGold/vk-io-pages#readme",
+  "dependencies": {
+    "vk-io": "^4.0.3"
+  },
+  "devDependencies": {
+    "@babel/cli": "^7.12.1",
+    "@babel/core": "^7.12.3",
+    "@babel/plugin-proposal-nullish-coalescing-operator": "^7.12.1",
+    "@babel/plugin-transform-modules-commonjs": "^7.12.1",
+    "@babel/preset-env": "^7.12.1"
+  }
+}
