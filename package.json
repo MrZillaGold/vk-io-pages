@@ -23,6 +23,12 @@
     "url": "https://github.com/MrZillaGold/vk-io-pages/issues"
   },
   "homepage": "https://github.com/MrZillaGold/vk-io-pages#readme",
+  "keywords": [
+    "vk-io",
+    "vkio",
+    "pages",
+    "vk-io-pages"
+  ],
   "dependencies": {
     "vk-io": "^4.0.3"
   },
