@@ -20,4 +20,4 @@
 `npm i vk-io-pages`
 
 ### Демо 🎥
-<img src="https://raw.githubusercontent.com/MrZillaGold/vk-io-pages/master/docs/demo.gif">
+<img src="https://github.com/MrZillaGold/vk-io-pages/raw/master/docs/demo.gif">
