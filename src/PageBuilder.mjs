@@ -1,4 +1,4 @@
-import * as VKIO from "vk-io";
+import VKIO from "vk-io";
 
 import { ContextUtils } from "./ContextUtils";
 
