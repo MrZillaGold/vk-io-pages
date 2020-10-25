@@ -134,7 +134,7 @@ export class PageBuilder extends ContextUtils {
 
         return {
             ...page,
-            keyboard: this.keyboard
+            keyboard: page.keyboard ?? this.keyboard
         }
     }
 

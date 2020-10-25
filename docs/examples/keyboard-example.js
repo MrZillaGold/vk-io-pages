@@ -50,4 +50,31 @@ hearManager.hear("/start", (context) => {
     return builder.build();
 });
 
+hearManager.hear("/clone", (context) => {
+    const builder = new context.pageBuilder({
+        api: vk.api, // API нужен для отметки сообщений прочитанными, по желанию можете не передавать.
+        context // Контекст текущего сообщения
+    })
+        .setDefaultButtons(["back", "next"]);
+
+    builder.setPages(
+        ["1", "2"].map((number) => {
+            return () => {
+                const keyboard = builder.keyboard.clone();
+
+                keyboard.textButton({
+                    label: number
+                });
+
+                return {
+                    message: `Страница ${number}`,
+                    keyboard
+                }
+            }
+        })
+    );
+
+    return builder.build();
+});
+
 vk.updates.start().catch(console.error);
