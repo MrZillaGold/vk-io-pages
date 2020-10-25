@@ -11,7 +11,7 @@
   },
   "module": "./src/PagesManager.mjs",
   "scripts": {
-    "build": "babel src --out-dir lib"
+    "build": "babel src --out-dir lib && node --experimental-modules --es-module-specifier-resolution=node ./scripts/fixImports.mjs"
   },
   "repository": {
     "type": "git",
