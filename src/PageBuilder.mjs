@@ -127,13 +127,9 @@ export class PageBuilder extends ContextUtils {
             };
         }
 
-        page = {
-            ...page,
-            message: `${page.message}\n\n${pageNumber}`
-        };
-
         return {
             ...page,
+            message: `${page.message}\n\n${pageNumber}`,
             keyboard: page.keyboard ?? this.keyboard
         }
     }
