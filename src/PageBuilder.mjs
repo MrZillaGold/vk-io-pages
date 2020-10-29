@@ -1,4 +1,5 @@
 import VKIO from "vk-io";
+import EventEmitter from "events";
 
 import { ContextUtils } from "./ContextUtils";
 
@@ -8,7 +9,7 @@ const { Keyboard, KeyboardBuilder, API, MessageContext, IMessageContextSendOptio
 
 export const pagesStorage = new Map();
 
-export class PageBuilder extends ContextUtils {
+export class PageBuilder extends EventEmitter {
 
     /**
      * @description Сборщик страниц
@@ -75,7 +76,9 @@ export class PageBuilder extends ContextUtils {
 
         const page = await this._getPage(pageNumber);
 
-        return this._editMessage(page);
+        this.emit("page_set", pageNumber);
+
+        return new ContextUtils(this)._editMessage(page);
     }
 
     /**
@@ -179,7 +182,9 @@ export class PageBuilder extends ContextUtils {
 
         const page = await this._getPage(this.currentPage);
 
-        this._editMessage({
+        this.emit("listen_stop", this.currentPage);
+
+        new ContextUtils(this)._editMessage({
             ...page,
             keyboard: JSON.stringify({})
         }, "stop");
@@ -285,6 +290,8 @@ export class PageBuilder extends ContextUtils {
         trigger = this.triggers.get(trigger);
 
         if (trigger) {
+            this.emit("trigger_execute", trigger);
+
             trigger();
         }
     }
@@ -304,11 +311,13 @@ export class PageBuilder extends ContextUtils {
                 );
             }
 
-            this._saveContext();
-
             context.send(await this._getPage(1))
                 .then((sentContext) => {
                     this.sentContext = sentContext;
+
+                    this._saveContext();
+
+                    this.emit("listen_start");
 
                     setTimeout(this.stopListen.bind(this), this.listenTime);
 
@@ -323,6 +332,8 @@ export class PageBuilder extends ContextUtils {
     }
 
     _executeAction(action) {
+        this.emit("page_action_execute", action);
+
         switch (action) {
             case "first":
                 if (this.currentPage === 1) {
@@ -394,8 +405,10 @@ export class PageBuilder extends ContextUtils {
                 return;
             }
 
-            this._markAsRead(context);
-            this._deleteMessage(context);
+            const contextUtils = new ContextUtils(this);
+
+            contextUtils._markAsRead(context);
+            contextUtils._deleteMessage(context);
 
             if (action) {
                 this._executeAction(action);

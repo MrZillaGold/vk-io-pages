@@ -10,7 +10,7 @@ fs.readdir("./lib")
                     .then((file) => {
                         file = file.toString();
 
-                        file = file.replace(/\.default;$/gm, ";");
+                        file = file.replace(/\.default/gm, "");
 
                         fs.writeFile(filePath, file);
                     });

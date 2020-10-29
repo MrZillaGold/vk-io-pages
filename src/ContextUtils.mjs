@@ -1,7 +1,11 @@
 export class ContextUtils {
 
+    constructor(builder) {
+        this.builder = builder;
+    }
+
     _markAsRead(context) {
-        const api = this._api;
+        const api = this.builder._api;
 
         if (api) {
             api.messages.markAsRead({
@@ -12,17 +16,17 @@ export class ContextUtils {
     }
 
     _editMessage(messageParams, event = "") {
-        const context = this.sentContext;
+        const context = this.builder.sentContext;
 
-        if (context.id && this.sendMethod !== "send_new") {
+        if (context.id && this.builder.sendMethod !== "send_new") {
             return context.editMessage(messageParams)
                 .catch((error) => {
                     if (error?.code === 909) {
                         return context.send(messageParams)
                             .then((context) => {
-                                this.sentContext = context;
+                                this.builder.sentContext = context;
 
-                                this._saveContext();
+                                this.builder._saveContext();
                             })
                     }
 
