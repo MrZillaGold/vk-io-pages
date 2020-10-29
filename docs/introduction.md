@@ -8,9 +8,9 @@
 
 ### Использование 📦
 ```js
-import { PagesManager } from "vk-io-pages"; // ES6
+import { PagesManager } from "vk-io-pages"; // ESM
 // или
-const { PagesManager } = require("vk-io-pages"); // ES5
+const { PagesManager } = require("vk-io-pages"); // CommonJS
 
 const { VK } = require("vk-io");
 const { HearManager } = require("@vk-io/hear");
