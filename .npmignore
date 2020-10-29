@@ -1,5 +1,7 @@
-/scripts
-/docs
+.idea
+.github
+scripts
+docs
 .gitignore
 babel.config.json
-.idea
+
