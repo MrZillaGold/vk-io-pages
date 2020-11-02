@@ -22,6 +22,8 @@
 **Пример**:
 
 ```js
+const builder = context.pageBuilder();
+
 builder.setDefaultButtons(["stop", "next", "last"], "callback");
 ```
 
@@ -50,6 +52,8 @@ builder.setDefaultButtons(["stop", "next", "last"], "callback");
 **Пример**:
 
 ```js
+const builder = context.pageBuilder();
+
 const keyboard = builder.keyboard;
 
 keyboard.textButton({

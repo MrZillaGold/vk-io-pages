@@ -3,7 +3,7 @@
 Вы можете подписываться на события и выполнять определнные действия при их активации.
 
 ```js
-const builder = new context.pageBuilder();
+const builder = context.pageBuilder();
 
 builder.on("page_update", (page) => {
     console.log(page);

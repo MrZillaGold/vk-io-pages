@@ -9,7 +9,7 @@ const { Keyboard, KeyboardBuilder, API, MessageContext, IMessageContextSendOptio
 
 export const pagesStorage = new Map();
 
-export class PageBuilder extends EventEmitter {
+export class PagesBuilder extends EventEmitter {
 
     /**
      * @description Сборщик страниц

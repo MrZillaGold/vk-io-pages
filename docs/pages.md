@@ -33,6 +33,8 @@
 **Пример**:
 
 ```js
+const builder = context.pageBuilder();
+
 builder.setPages("Текстовая страница");
 builder.setPages(async () => {
     const data = await Promise((resolve) => {
@@ -86,6 +88,8 @@ builder.setPages([
 **Пример**:
 
 ```js
+const builder = context.pageBuilder();
+
 builder.build()
     .setPage(2);
 ```
@@ -104,6 +108,8 @@ builder.build()
 **Пример**:
 
 ```js
+const builder = context.pageBuilder();
+
 builder.setPageNumberFormat("Текущая страница %с / Всего страниц %m");
 ```
 
@@ -121,6 +127,8 @@ builder.setPageNumberFormat("Текущая страница %с / Всего с
 **Пример**:
 
 ```js
+const builder = context.pageBuilder();
+
 builder.setInfinityLoop(false);
 ```
 
@@ -138,5 +146,7 @@ builder.setInfinityLoop(false);
 **Пример**:
 
 ```js
+const builder = context.pageBuilder();
+
 builder.setSendMethod("send_new");
 ```

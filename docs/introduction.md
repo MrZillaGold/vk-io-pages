@@ -20,7 +20,9 @@ const vk = new VK({
 });
 
 
-const pagesManager = new PagesManager();
+const pagesManager = new PagesManager({
+    api: vk.api // API нужен для отметки сообщений прочитанными, по желанию можете не передавать.
+});
 const hearManager = new HearManager();
 
 vk.updates.on("message_event", pagesManager.middleware);
@@ -29,10 +31,7 @@ vk.updates.on("message_new", pagesManager.middleware);
 vk.updates.on("message_new", hearManager.middleware);
 
 hearManager.hear("/start", (context) => {
-	const builder = new context.pageBuilder({
-                            api: vk.api, // API нужен для отметки сообщений прочитанными, по желанию можете не передавать.
-                            context // Контекст текущего сообщения
-                        });
+	const builder = context.pageBuilder();
     
     builder.setPages([
         "1 страница",

@@ -21,6 +21,8 @@
 **Пример**:
 
 ```js
+const builder = context.pageBuilder();
+
 builder.setTriggers({
     name: "test_trigger", // ID-Триггера
     callback() { // Функция которая выполняется при вызове триггера

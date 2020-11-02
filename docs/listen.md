@@ -44,6 +44,8 @@ builder.setListenTime(40000);
 **Пример**:
 
 ```js
+const builder = context.pageBuilder();
+
 builder.setListenUsers(233731786);
 builder.setListenUsers([233731786, 344339736]);
 ```
@@ -62,6 +64,8 @@ builder.setListenUsers([233731786, 344339736]);
 **Пример**:
 
 ```js
+const builder = context.pageBuilder();
+
 builder.setListenUsers(233731786);
 builder.setListenUsers([233731786, 344339736]);
 ```
@@ -74,6 +78,8 @@ builder.setListenUsers([233731786, 344339736]);
 **Пример**:
 
 ```js
+const builder = context.pageBuilder();
+
 builder.build()
     .stopListen();
 ```
