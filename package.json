@@ -11,7 +11,8 @@
   },
   "module": "./src/PagesManager.mjs",
   "scripts": {
-    "build": "babel src --out-dir lib && node --experimental-modules --es-module-specifier-resolution=node ./scripts/fixImports.mjs"
+    "build": "babel src --out-dir lib && node --experimental-modules --es-module-specifier-resolution=node ./scripts/fixImports.mjs",
+    "test": "node --experimental-modules --experimental-json-modules node_modules/mocha/bin/_mocha --reporter spec --timeout 30000 --exit"
   },
   "repository": {
     "type": "git",
@@ -38,6 +39,7 @@
     "@babel/plugin-proposal-nullish-coalescing-operator": "^7.12.1",
     "@babel/plugin-transform-modules-commonjs": "^7.12.1",
     "@babel/plugin-transform-runtime": "^7.12.1",
-    "@babel/preset-env": "^7.12.1"
+    "@babel/preset-env": "^7.12.1",
+    "mocha": "^8.2.0"
   }
 }

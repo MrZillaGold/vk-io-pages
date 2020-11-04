@@ -1,9 +1,9 @@
 import VKIO from "vk-io";
 import EventEmitter from "events";
 
-import { ContextUtils } from "./ContextUtils";
+import { ContextUtils } from "./ContextUtils.mjs";
 
-import { randomString } from "./functions";
+import { randomString } from "./functions.mjs";
 
 const { Keyboard, KeyboardBuilder, API, MessageContext, IMessageContextSendOptions } = VKIO;
 
@@ -114,8 +114,10 @@ export class PagesBuilder extends EventEmitter {
         return this;
     }
 
-    async _getPage(page) {
-        const pageNumber = this.pageNumberFormat.replace("%c", this.currentPage)
+    async _getPage(page = null) {
+        page = page ?? this.currentPage;
+
+        const pageNumber = this.pageNumberFormat.replace("%c", page)
             .replace("%m", this.pages.length);
 
         page = this.pages[page - 1];

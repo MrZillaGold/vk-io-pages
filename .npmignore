@@ -1,7 +1,9 @@
 .idea
 .github
+.circleci
 scripts
 docs
 .gitignore
+test
 babel.config.json
 
