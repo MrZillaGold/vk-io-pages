@@ -12,7 +12,7 @@
   "module": "./src/PagesManager.mjs",
   "scripts": {
     "build": "babel src --out-dir lib && node --experimental-modules --es-module-specifier-resolution=node ./scripts/fixImports.mjs",
-    "test": "node --experimental-modules --experimental-json-modules node_modules/mocha/bin/_mocha --reporter spec --timeout 30000 --exit"
+    "test": "npm run-script build && node --experimental-modules --experimental-json-modules node_modules/mocha/bin/_mocha --reporter spec --timeout 30000 --exit"
   },
   "repository": {
     "type": "git",
