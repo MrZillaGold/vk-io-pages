@@ -35,9 +35,9 @@ const builder = context.pageBuilder();
 builder.setListenTime(40000);
 ```
 
-<a name="setListenTime"></a>
+<a name="resetListenTimeout"></a>
 
-## setListenTime(time) ⇒ <code>this</code>;
+## resetListenTimeout();
 Метод для сброса текущего таймера прослушивания
 
 **Пример**:
