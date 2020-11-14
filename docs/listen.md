@@ -45,6 +45,8 @@ builder.setListenTime(40000);
 ```js
 const builder = context.pageBuilder();
 
+builder.build();
+
 builder.resetListenTimeout();
 ```
 
