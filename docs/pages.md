@@ -9,6 +9,9 @@
 <dt><a href="#setPage">setPage(pageNumber)</a> ⇒ <code>Promise</code>;</dt>
 <dd><p>Метод для открытия определенной страницы</p></dd>
 
+<dt><a href="#autoResetTimeout">autoResetTimeout(status)</a> ⇒ <code>this</code>;</dt>
+<dd><p>Метод для установки автоматического сброса таймера при переключении между страницами</p></dd>
+
 <dt><a href="#setPageNumberFormat">setPageNumberFormat(format)</a> ⇒ <code>this</code>;</dt>
 <dd><p>Метод для установки формата нумерования страниц</p></dd>
 
@@ -92,6 +95,25 @@ const builder = context.pageBuilder();
 
 builder.build()
     .setPage(2);
+```
+
+<a name="autoResetTimeout"></a>
+
+## autoResetTimeout(status) ⇒ <code>this</code>;
+Метод для установки автоматического сброса таймера при переключении между страницами
+
+**Возвращает**: `this` - Текущий контекст билдера
+
+| Параметры | Тип       | По умолчанию  | Описание                                |
+| --------- | --------- | ------------- | --------------------------------------- |
+| status    | `boolean` | `true`        | Значение автоматического сброса таймера |
+
+**Пример**:
+
+```js
+const builder = context.pageBuilder();
+
+builder.autoResetTimeout();
 ```
 
 <a name="setPageNumberFormat"></a>

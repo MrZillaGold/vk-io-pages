@@ -1,6 +1,6 @@
 import VKIO from "vk-io";
 
-import { PagesBuilder, pagesStorage } from "./PageBuilder";
+import { PagesBuilder, pagesStorage } from "./PagesBuilder";
 
 const { API } = VKIO;
 

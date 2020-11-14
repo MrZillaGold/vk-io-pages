@@ -3,6 +3,9 @@
 <dt><a href="#setListenTime">setListenTime(time)</a> ⇒ <code>this</code>;</dt>
 <dd><p>Метод для установки времени прослушивания обновлений для переключения страниц</p></dd>
 
+<dt><a href="#resetListenTimeout">resetListenTimeout();</a></dt>
+<dd><p>Метод для сброса текущего таймера прослушивания</p></dd>
+
 <dt><a href="#setListenUsers">setListenUsers(users)</a> ⇒ <code>this</code>;</dt>
 <dd><p>Метод для установки прослушивания определенных пользователей</p></dd>
 
@@ -27,7 +30,22 @@
 **Пример**:
 
 ```js
+const builder = context.pageBuilder();
+
 builder.setListenTime(40000);
+```
+
+<a name="setListenTime"></a>
+
+## setListenTime(time) ⇒ <code>this</code>;
+Метод для сброса текущего таймера прослушивания
+
+**Пример**:
+
+```js
+const builder = context.pageBuilder();
+
+builder.resetListenTimeout();
 ```
 
 <a name="setListenUsers"></a>

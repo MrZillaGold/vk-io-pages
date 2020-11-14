@@ -28,10 +28,14 @@ export class PagesBuilder extends EventEmitter {
         this.pages = [];
         this.currentPage = 1;
         this.infinityLoop = true;
+        this.resetTimeout = false;
         this.pageNumberFormat = "%c / %m";
-        this.listenTime = 5 * 60 * 1000; // 5 минут
-        this.listenUsers = [];
         this.sendMethod = "send_new";
+
+        this.listenTime = 5 * 60 * 1000; // 5 минут
+        this._listenTimeout = null;
+        this.listenUsers = [];
+
         this.triggers = null;
 
         this.sentContext = null;
@@ -74,11 +78,31 @@ export class PagesBuilder extends EventEmitter {
     async setPage(pageNumber) {
         this.currentPage = pageNumber;
 
+        if (this.resetTimeout) {
+            this.resetListenTimeout();
+        }
+
+        this._saveContext();
+
         const page = await this._getPage(pageNumber);
 
         this.emit("page_set", pageNumber);
 
-        return new ContextUtils(this)._editMessage(page);
+        return new ContextUtils(this)
+            ._editMessage(page);
+    }
+
+    /**
+     * @description Метод для установки автоматического сброса таймера при переключении между страницами
+     * @param {boolean} status=true - Значение автоматического сброса таймера
+     * @return this
+     */
+    autoResetTimeout(status = true) {
+        this.resetTimeout = status;
+
+        this._saveContext();
+
+        return this;
     }
 
     /**
@@ -114,6 +138,9 @@ export class PagesBuilder extends EventEmitter {
         return this;
     }
 
+    /**
+     * @private
+     */
     async _getPage(page = null) {
         page = page ?? this.currentPage;
 
@@ -151,8 +178,21 @@ export class PagesBuilder extends EventEmitter {
     }
 
     /**
+     * @description Метод для сброса текущего таймера прослушивания
+     */
+    resetListenTimeout() {
+        clearTimeout(this._listenTimeout);
+
+        this._listenTimeout = setTimeout(this.stopListen.bind(this), this.listenTime);
+
+        this._saveContext();
+
+        this.emit("listen_reset_timeout");
+    }
+
+    /**
      * @description Метод для установки прослушивания определенных пользователей
-     * @param {[number]|number} users=[] - Пользватели для прослушивания
+     * @param {[number]|number} users=[] - Пользователи для прослушивания
      * @return this
      */
     setListenUsers(users = []) {
@@ -180,16 +220,18 @@ export class PagesBuilder extends EventEmitter {
      * @description Метод для досрочной остановки прослушивания новых сообщений
      */
     async stopListen() {
+        clearTimeout(this._listenTimeout);
         pagesStorage.delete(this.id);
-
-        const page = await this._getPage(this.currentPage);
 
         this.emit("listen_stop", this.currentPage);
 
-        new ContextUtils(this)._editMessage({
-            ...page,
-            keyboard: JSON.stringify({})
-        }, "stop");
+        const page = await this._getPage(this.currentPage);
+
+        new ContextUtils(this)
+            ._editMessage({
+                ...page,
+                keyboard: JSON.stringify({})
+            }, "stop");
     }
 
     /**
@@ -288,6 +330,9 @@ export class PagesBuilder extends EventEmitter {
         return this;
     }
 
+    /**
+     * @private
+     */
     _executeTrigger(trigger) {
         trigger = this.triggers.get(trigger);
 
@@ -321,7 +366,7 @@ export class PagesBuilder extends EventEmitter {
 
                     this.emit("listen_start");
 
-                    setTimeout(this.stopListen.bind(this), this.listenTime);
+                    this.resetListenTimeout();
 
                     resolve(this);
                 })
@@ -329,10 +374,16 @@ export class PagesBuilder extends EventEmitter {
         });
     }
 
+    /**
+     * @private
+     */
     _saveContext() {
         pagesStorage.set(this.id, this);
     }
 
+    /**
+     * @private
+     */
     _executeAction(action) {
         this.emit("page_action_execute", action);
 
@@ -391,6 +442,9 @@ export class PagesBuilder extends EventEmitter {
         }
     }
 
+    /**
+     * @private
+     */
     _messageMiddleware(context) {
         this._context = context;
 
@@ -428,7 +482,5 @@ export class PagesBuilder extends EventEmitter {
                 this._executeTrigger(trigger);
             }
         }
-
-        this._saveContext();
     }
 }
