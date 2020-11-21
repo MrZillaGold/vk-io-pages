@@ -13,6 +13,8 @@ export class PagesManager {
      */
     constructor({ api }) {
         this.api = api;
+
+        this.fallbackHandler = null;
     }
 
     get middleware() {
@@ -30,10 +32,27 @@ export class PagesManager {
 
                 if (pagesInstance) {
                     pagesInstance._messageMiddleware(context);
+                } else {
+                    if (this.fallbackHandler) {
+                        return this.fallbackHandler(context, next);
+                    }
                 }
             }
 
             return next();
         }
     }
+
+    /**
+     * @description Метод для установки обработчика при отсутствии сборщика
+     * @param {function} handler - Обработчик
+     * @return this
+     */
+    onFallback(handler) {
+        this.fallbackHandler = handler;
+
+        return this;
+    }
 }
+
+export { hasBuilder } from "./functions";

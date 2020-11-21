@@ -3,7 +3,7 @@ import EventEmitter from "events";
 
 import { ContextUtils } from "./ContextUtils.mjs";
 
-import { randomString } from "./functions.mjs";
+import { cleanUpKeyboard, randomString } from "./functions.mjs";
 
 const { Keyboard, KeyboardBuilder, API, MessageContext, IMessageContextSendOptions } = VKIO;
 
@@ -41,7 +41,7 @@ export class PagesBuilder extends EventEmitter {
         this.sentContext = null;
 
         this.keyboard = null;
-        this.setDefaultButtons(["first", "back", "stop", "next", "last"]);
+        this.setDefaultButtons();
     }
 
     /**
@@ -60,7 +60,7 @@ export class PagesBuilder extends EventEmitter {
     }
 
     /**
-     * @description Метод для добавление страниц в конец
+     * @description Метод для добавления страниц в конец
      * @param {[function|string|IMessageContextSendOptions]|function|string|IMessageContextSendOptions} pages - Страницы для добавления
      * @return this
      */
@@ -73,7 +73,7 @@ export class PagesBuilder extends EventEmitter {
     /**
      * @description Метод для открытия определенной страницы
      * @param {number} pageNumber - Номер страницы
-     * @return {Promise} Результат отправки/редактирования сообщения или ошибка
+     * @return {Promise} - Результат отправки/редактирования сообщения
      */
     async setPage(pageNumber) {
         this.currentPage = pageNumber;
@@ -129,7 +129,7 @@ export class PagesBuilder extends EventEmitter {
 
     /**
      * @description Метод для установки метода отправки страницы
-     * @param {"send_new"|"edit"} method - Значение для бесконечного переключения между страницами
+     * @param {"send_new"|"edit"} method - Метод отправки
      * @return this
      */
     setSendMethod(method = "send_new") {
@@ -141,13 +141,10 @@ export class PagesBuilder extends EventEmitter {
     /**
      * @private
      */
-    async _getPage(page = null) {
-        page = page ?? this.currentPage;
+    async _getPage(pageNumber = null) {
+        pageNumber = pageNumber ?? this.currentPage;
 
-        const pageNumber = this.pageNumberFormat.replace("%c", page)
-            .replace("%m", this.pages.length);
-
-        page = this.pages[page - 1];
+        let page = this.pages[pageNumber - 1];
 
         if (typeof page === "function") {
             page = await page();
@@ -159,11 +156,20 @@ export class PagesBuilder extends EventEmitter {
             };
         }
 
+        let keyboard = page.keyboard ?? this.keyboard;
+
+        if (!this.infinityLoop) {
+            keyboard = cleanUpKeyboard(keyboard, pageNumber);
+        }
+
+        const pageNumbers = this.pageNumberFormat.replace("%c", pageNumber)
+            .replace("%m", String(this.pages.length));
+
         return {
             ...page,
-            message: `${page.message}\n\n${pageNumber}`,
-            keyboard: page.keyboard ?? this.keyboard
-        }
+            message: `${page.message}\n\n${pageNumbers}`,
+            keyboard: keyboard.rows.length ? keyboard : JSON.stringify({})
+        };
     }
 
     /**
@@ -207,7 +213,7 @@ export class PagesBuilder extends EventEmitter {
 
     /**
      * @description Метод для добавления прослушивания определенных пользователей
-     * @param {[number]|number} users=[] - Пользватели для прослушивания
+     * @param {[number]|number} users=[] - Пользователи для прослушивания
      * @return this
      */
     addListenUsers(users = []) {
@@ -236,11 +242,11 @@ export class PagesBuilder extends EventEmitter {
 
     /**
      * @description Метод для установки кнопок по умолчанию
-     * @param {["first", "back", "stop", "next", "last"]} buttons - Названия кнопок
+     * @param {["first", "back", "stop", "next", "last"]} [buttons] - Названия кнопок
      * @param {"text"|"callback"} [type="text"] - Тип кнопок
      * @return this
      */
-    setDefaultButtons(buttons, type = "text") {
+    setDefaultButtons(buttons = ["first", "back", "stop", "next", "last"], type = "text") {
         const keyboard = Keyboard.builder()
             .inline(true);
 
@@ -345,7 +351,7 @@ export class PagesBuilder extends EventEmitter {
 
     /**
      * @description Функция для сборки и отправки страниц
-     * @return {Promise} Текущий контекст класса или ошибка
+     * @return {Promise} - Текущий контекст сборщика
      */
     build() {
         const { _context: context, pages } = this;
