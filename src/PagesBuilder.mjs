@@ -44,6 +44,11 @@ export class PagesBuilder extends EventEmitter {
 
         this.keyboard = null;
         this.setDefaultButtons();
+
+        /**
+         * @deprecated
+         */
+        this.setPageNumberFormat = this.setPagesNumberFormat;
     }
 
     /**
@@ -106,11 +111,6 @@ export class PagesBuilder extends EventEmitter {
 
         return this;
     }
-
-    /**
-     * @deprecated
-     */
-    setPageNumberFormat = this.setPagesNumberFormat;
 
     /**
      * @description Метод для установки формата нумерования страниц
