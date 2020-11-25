@@ -26,6 +26,8 @@ export class PagesBuilder extends EventEmitter {
         this.id = randomString(6);
 
         this.pages = [];
+        this.header = "";
+        this.footer = "";
         this.currentPage = 1;
         this.infinityLoop = true;
         this.resetTimeout = false;
@@ -106,11 +108,16 @@ export class PagesBuilder extends EventEmitter {
     }
 
     /**
+     * @deprecated
+     */
+    setPageNumberFormat = this.setPagesNumberFormat;
+
+    /**
      * @description Метод для установки формата нумерования страниц
      * @param {string} format="%c / %m" - Формат нумерования
      * @return this
      */
-    async setPageNumberFormat(format = "%c / %m") {
+    setPagesNumberFormat(format = "%c / %m") {
         this.pageNumberFormat = format;
 
         return this;
@@ -123,6 +130,28 @@ export class PagesBuilder extends EventEmitter {
      */
     setInfinityLoop(status = true) {
         this.infinityLoop = status;
+
+        return this;
+    }
+
+    /**
+     * @description Метод для установки верхней части страниц
+     * @param {string} header - Строка для верхней части страниц
+     * @return {this}
+     */
+    setPagesHeader(header = "") {
+        this.header = header;
+
+        return this;
+    }
+
+    /**
+     * @description Метод для установки нижней части страниц
+     * @param {string} footer - Строка для нижней части страниц
+     * @return {this}
+     */
+    setPagesFooter(footer = "") {
+        this.footer = footer;
 
         return this;
     }
@@ -167,7 +196,7 @@ export class PagesBuilder extends EventEmitter {
 
         return {
             ...page,
-            message: `${page.message}\n\n${pageNumbers}`,
+            message: `${this.header}${page.message}${this.footer}\n\n${pageNumbers}`,
             keyboard: keyboard.rows.length ? keyboard : JSON.stringify({})
         };
     }
