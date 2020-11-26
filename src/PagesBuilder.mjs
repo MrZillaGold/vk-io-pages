@@ -176,7 +176,7 @@ export class PagesBuilder extends EventEmitter {
         let page = this.pages[pageNumber - 1];
 
         if (typeof page === "function") {
-            page = await page();
+            page = await page(this._context);
         }
 
         if (typeof page === "string") {
@@ -374,7 +374,7 @@ export class PagesBuilder extends EventEmitter {
         if (trigger) {
             this.emit("trigger_execute", trigger);
 
-            trigger();
+            trigger(this._context);
         }
     }
 
