@@ -197,7 +197,10 @@ export class PagesBuilder extends EventEmitter {
         return {
             ...page,
             message: `${this.header}${page.message}${this.footer}\n\n${pageNumbers}`,
-            keyboard: keyboard.rows.length ? keyboard : JSON.stringify({})
+            keyboard: keyboard.rows.length || keyboard.currentRow.length ?
+                keyboard
+                :
+                JSON.stringify({})
         };
     }
 
