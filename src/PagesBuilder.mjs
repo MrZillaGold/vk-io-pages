@@ -31,7 +31,7 @@ export class PagesBuilder extends EventEmitter {
         this.currentPage = 1;
         this.infinityLoop = true;
         this.resetTimeout = false;
-        this.pageNumberFormat = "%c / %m";
+        this.pagesNumberFormat = "%c / %m";
         this.sendMethod = "send_new";
 
         this.listenTime = 5 * 60 * 1000; // 5 минут
@@ -44,11 +44,6 @@ export class PagesBuilder extends EventEmitter {
 
         this.keyboard = null;
         this.setDefaultButtons();
-
-        /**
-         * @deprecated
-         */
-        this.setPageNumberFormat = this.setPagesNumberFormat;
     }
 
     /**
@@ -118,7 +113,7 @@ export class PagesBuilder extends EventEmitter {
      * @return this
      */
     setPagesNumberFormat(format = "%c / %m") {
-        this.pageNumberFormat = format;
+        this.pagesNumberFormat = format;
 
         return this;
     }
@@ -189,7 +184,7 @@ export class PagesBuilder extends EventEmitter {
             keyboard = cleanUpKeyboard(keyboard, pageNumber);
         }
 
-        const pageNumbers = this.pageNumberFormat.replace("%c", pageNumber)
+        const pageNumbers = this.pagesNumberFormat.replace("%c", pageNumber)
             .replace("%m", String(this.pages.length));
 
         return {
