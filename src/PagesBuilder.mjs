@@ -170,9 +170,7 @@ export class PagesBuilder extends EventEmitter {
     /**
      * @private
      */
-    async _getPage(pageNumber = null) {
-        pageNumber = pageNumber ?? this.currentPage;
-
+    async _getPage(pageNumber = this.currentPage) {
         let page = this.pages[pageNumber - 1];
 
         if (typeof page === "function") {
