@@ -1,18 +1,18 @@
 # Keyboard
 <dl>
-<dt><a href="#setDefaultButtons">setDefaultButtons(buttons, type)</a> ⇒ <code>this</code>;</dt>
+<dt><a href="#setDefaultButtons">setDefaultButtons(buttons, type)</a> ⇒ <code>PagesBuilder</code>;</dt>
 <dd><p>Метод для установки кнопок по умолчанию</p></dd>
 
-<dt><a href="#updateKeyboard">updateKeyboard(keyboard)</a> ⇒ <code>this</code>;</dt>
+<dt><a href="#updateKeyboard">updateKeyboard(keyboard)</a> ⇒ <code>PagesBuilder</code>;</dt>
 <dd><p>Метод для обновления клавиатуры</p></dd>
 </dl>
 
 <a name="setDefaultButtons"></a>
 
-## setDefaultButtons(buttons, type) ⇒ <code>this</code>;
+## setDefaultButtons(buttons, type) ⇒ <code>PagesBuilder</code>;
 Метод для установки кнопок по умолчанию
 
-**Возвращает**: `this` - Текущий контекст билдера
+**Возвращает**: `PagesBuilder`
 
 | Параметры | Тип                                                 | По умолчанию                                        | Описание        |
 | --------- | --------------------------------------------------- | --------------------------------------------------- | --------------- |
@@ -31,10 +31,10 @@ builder.setDefaultButtons(["stop", "next", "last"], "callback");
 
 <a name="updateKeyboard"></a>
 
-## updateKeyboard(keyboard) ⇒ <code>this</code>;
+## updateKeyboard(keyboard) ⇒ <code>PagesBuilder</code>;
 Метод для обновления клавиатуры
 
-**Возвращает**: `this` - Текущий контекст сборщика
+**Возвращает**: `PagesBuilder`
 
 | Параметры | Тип                                                                                                                        | По умолчанию | Описание   |
 | --------- | -------------------------------------------------------------------------------------------------------------------------- | ------------ | ---------- |

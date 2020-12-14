@@ -1,18 +1,18 @@
 # Keyboard
 <dl>
-<dt><a href="#setTriggers">setTriggers(triggers)</a> ⇒ <code>this</code>;</dt>
+<dt><a href="#setTriggers">setTriggers(triggers)</a> ⇒ <code>PagesBuilder</code>;</dt>
 <dd><p>Метод для начальной установки триггеров</p></dd>
 
-<dt><a href="#addTriggers">addTriggers(triggers)</a> ⇒ <code>this</code>;</dt>
+<dt><a href="#addTriggers">addTriggers(triggers)</a> ⇒ <code>PagesBuilder</code>;</dt>
 <dd><p>Метод для добавления триггеров</p></dd>
 </dl>
 
 <a name="setTriggers"></a>
 
-## setTriggers(triggers) ⇒ <code>this</code>;
+## setTriggers(triggers) ⇒ <code>PagesBuilder</code>;
 Метод для начальной установки триггеров
 
-**Возвращает**: `this` - Текущий контекст сборщика
+**Возвращает**: `PagesBuilder`
 
 | Параметры  | Тип               | Описание        |
 | ---------- | ----------------- | --------------- |
@@ -48,10 +48,10 @@ builder.setTriggers([
 
 <a name="addTriggers"></a>
 
-## addTriggers(triggers) ⇒ <code>this</code>;
+## addTriggers(triggers) ⇒ <code>PagesBuilder</code>;
 Метод для добавления триггеров
 
-**Возвращает**: `this` - Текущий контекст сборщика
+**Возвращает**: `PagesBuilder`
 
 | Параметры  | Тип               | Описание        |
 | ---------- | ----------------- | --------------- |

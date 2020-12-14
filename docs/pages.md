@@ -1,39 +1,39 @@
 # Pages
 <dl>
-<dt><a href="#setPages">setPages(pages)</a> ⇒ <code>this</code>;</dt>
+<dt><a href="#setPages">setPages(pages)</a> ⇒ <code>PagesBuilder</code>;</dt>
 <dd><p>Метод для начальной установки страниц</p></dd>
 
-<dt><a href="#addPages">addPages(pages)</a> ⇒ <code>this</code>;</dt>
+<dt><a href="#addPages">addPages(pages)</a> ⇒ <code>PagesBuilder</code>;</dt>
 <dd><p>Метод для добавление страниц в конец</p></dd>
 
-<dt><a href="#setPage">setPage(pageNumber)</a> ⇒ <code>Promise</code>;</dt>
+<dt><a href="#setPage">setPage(pageNumber)</a> ⇒ <code>Promise<MessageContext></code>;</dt>
 <dd><p>Метод для открытия определенной страницы</p></dd>
 
-<dt><a href="#autoResetTimeout">autoResetTimeout(status)</a> ⇒ <code>this</code>;</dt>
+<dt><a href="#autoResetTimeout">autoResetTimeout(status)</a> ⇒ <code>PagesBuilder</code>;</dt>
 <dd><p>Метод для установки автоматического сброса таймера при переключении между страницами</p></dd>
 
-<dt><a href="#setPagesNumberFormat">setPagesNumberFormat(format)</a> ⇒ <code>this</code>;</dt>
+<dt><a href="#setPagesNumberFormat">setPagesNumberFormat(format)</a> ⇒ <code>PagesBuilder</code>;</dt>
 <dd><p>Метод для установки формата нумерования страниц</p></dd>
 
-<dt><a href="#setInfinityLoop">setInfinityLoop(status)</a> ⇒ <code>this</code>;</dt>
+<dt><a href="#setInfinityLoop">setInfinityLoop(status)</a> ⇒ <code>PagesBuilder</code>;</dt>
 <dd><p>Метод для установки бесконечного переключения между страницами при достижении конца</p></dd>
 
-<dt><a href="#setPagesHeader">setPagesHeader(header)</a> ⇒ <code>this</code>;</dt>
+<dt><a href="#setPagesHeader">setPagesHeader(header)</a> ⇒ <code>PagesBuilder</code>;</dt>
 <dd><p>Метод для установки верхней части страниц</p></dd>
 
-<dt><a href="#setPagesFooter">setPagesFooter(footer)</a> ⇒ <code>this</code>;</dt>
+<dt><a href="#setPagesFooter">setPagesFooter(footer)</a> ⇒ <code>PagesBuilder</code>;</dt>
 <dd><p>Метод для установки нижней части страниц</p></dd>
 
-<dt><a href="#setSendMethod">setSendMethod(method)</a> ⇒ <code>this</code>;</dt>
+<dt><a href="#setSendMethod">setSendMethod(method)</a> ⇒ <code>PagesBuilder</code>;</dt>
 <dd><p>Метод для установки метода отправки страницы</p></dd>
 </dl>
 
 <a name="setPages"></a>
 
-## setPages(pages) ⇒ <code>this</code>;
+## setPages(pages) ⇒ <code>PagesBuilder</code>;
 Метод для начальной установки страниц
 
-**Возвращает**: `this` - Текущий контекст сборщика
+**Возвращает**: `PagesBuilder`
 
 | Параметры        | Тип                                  | Описание                |
 | ---------------- | ------------------------------------ | ----------------------- |
@@ -74,10 +74,10 @@ builder.setPages([
 
 <a name="addPages"></a>
 
-## addPages(pages) ⇒ <code>this</code>;
+## addPages(pages) ⇒ <code>PagesBuilder</code>;
 Метод для добавления страниц в конец
 
-**Возвращает**: `this` - Текущий контекст сборщика
+**Возвращает**: `PagesBuilder`
 
 | Параметры        | Тип                                  | Описание                |
 | ---------------- | ------------------------------------ | ----------------------- |
@@ -85,10 +85,10 @@ builder.setPages([
 
 <a name="setPage"></a>
 
-## setPage(pageNumber) ⇒ <code>Promise</code>;
+## setPage(pageNumber) ⇒ <code>Promise<MessageContext></code>;
 Метод для открытия определенной страницы
 
-**Возвращает**: `Promise` - Результат отправки/редактирования сообщения
+**Возвращает**: `Promise<MessageContext>` - Результат отправки/редактирования сообщения
 
 | Параметры   | Тип      | Описание       |
 | ----------- | -------- | -------------- |
@@ -105,10 +105,10 @@ builder.build()
 
 <a name="autoResetTimeout"></a>
 
-## autoResetTimeout(status) ⇒ <code>this</code>;
+## autoResetTimeout(status) ⇒ <code>PagesBuilder</code>;
 Метод для установки автоматического сброса таймера при переключении между страницами
 
-**Возвращает**: `this` - Текущий контекст сборщика
+**Возвращает**: `PagesBuilder`
 
 | Параметры | Тип       | По умолчанию | Описание                                |
 | --------- | --------- | ------------ | --------------------------------------- |
@@ -124,10 +124,10 @@ builder.autoResetTimeout();
 
 <a name="setPagesNumberFormat"></a>
 
-## setPagesNumberFormat(format) ⇒ <code>this</code>;
+## setPagesNumberFormat(format) ⇒ <code>PagesBuilder</code>;
 Метод для установки формата нумерования страниц
 
-**Возвращает**: `this` - Текущий контекст сборщика
+**Возвращает**: `PagesBuilder`
 
 | Параметры | Тип      | По умолчанию | Описание                                                            |
 | --------- | -------- | ------------ | ------------------------------------------------------------------- |
@@ -143,10 +143,10 @@ builder.setPageNumberFormat("Текущая страница %с / Всего с
 
 <a name="setInfinityLoop"></a>
 
-## setInfinityLoop(status) ⇒ <code>this</code>;
+## setInfinityLoop(status) ⇒ <code>PagesBuilder</code>;
 Метод для установки бесконечного переключения между страницами при достижении конца
 
-**Возвращает**: `this` - Текущий контекст сборщика
+**Возвращает**: `PagesBuilder`
 
 | Параметры | Тип       | По умолчанию | Описание                                                |
 | --------- | --------- | ------------ | ------------------------------------------------------- |
@@ -164,10 +164,10 @@ builder.setInfinityLoop(false);
 
 <a name="setPagesHeader"></a>
 
-## setPagesHeader(header) ⇒ <code>this</code>;
+## setPagesHeader(header) ⇒ <code>PagesBuilder</code>;
 Метод для установки верхней части страниц
 
-**Возвращает**: `this` - Текущий контекст сборщика
+**Возвращает**: `PagesBuilder`
 
 | Параметры | Тип       | По умолчанию | Описание                         |
 | --------- | --------- | ------------ | -------------------------------- |
@@ -183,10 +183,10 @@ builder.setPagesHeader("Заголовок страницы");
 
 <a name="setPagesFooter"></a>
 
-## setPagesFooter(footer) ⇒ <code>this</code>;
+## setPagesFooter(footer) ⇒ <code>PagesBuilder</code>;
 Метод для установки нижней части страниц
 
-**Возвращает**: `this` - Текущий контекст сборщика
+**Возвращает**: `PagesBuilder`
 
 | Параметры | Тип       | По умолчанию | Описание                        |
 | --------- | --------- | ------------ | ------------------------------- |
@@ -202,10 +202,10 @@ builder.setPagesFooter("Нижняя часть страницы");
 
 <a name="setSendMethod"></a>
 
-## setSendMethod(method) ⇒ <code>this</code>;
+## setSendMethod(method) ⇒ <code>PagesBuilder</code>;
 Метод для установки метода отправки страницы
 
-**Возвращает**: `this` - Текущий контекст сборщика
+**Возвращает**: `PagesBuilder`
 
 | Параметры | Тип                   | По умолчанию  | Описание                                              |
 | --------- | --------------------- | ------------- | ----------------------------------------------------- |

@@ -47,9 +47,14 @@ export class PagesBuilder extends EventEmitter {
     }
 
     /**
+     * Страница сборщика
+     * @typedef {function|string|IMessageContextSendOptions} Page
+     */
+
+    /**
      * @description Метод для начальной установки страниц
-     * @param {[function|string|IMessageContextSendOptions]|function|string|IMessageContextSendOptions} pages - Страницы для добавления
-     * @return this
+     * @param {Page[]|Page} pages - Страницы для добавления
+     * @return {PagesBuilder}
      */
     setPages(pages) {
         if (!Array.isArray(pages)) {
@@ -63,8 +68,8 @@ export class PagesBuilder extends EventEmitter {
 
     /**
      * @description Метод для добавления страниц в конец
-     * @param {[function|string|IMessageContextSendOptions]|function|string|IMessageContextSendOptions} pages - Страницы для добавления
-     * @return this
+     * @param {Page[]|Page} pages - Страницы для добавления
+     * @return {PagesBuilder}
      */
     addPages(pages) {
         this.pages = this.pages.concat(pages);
@@ -75,7 +80,7 @@ export class PagesBuilder extends EventEmitter {
     /**
      * @description Метод для открытия определенной страницы
      * @param {number} pageNumber - Номер страницы
-     * @return {Promise} - Результат отправки/редактирования сообщения
+     * @return {Promise<MessageContext>} - Результат отправки/редактирования сообщения
      */
     async setPage(pageNumber) {
         this.currentPage = pageNumber;
@@ -97,7 +102,7 @@ export class PagesBuilder extends EventEmitter {
     /**
      * @description Метод для установки автоматического сброса таймера при переключении между страницами
      * @param {boolean} status=true - Значение автоматического сброса таймера
-     * @return this
+     * @return {PagesBuilder}
      */
     autoResetTimeout(status = true) {
         this.resetTimeout = status;
@@ -110,7 +115,7 @@ export class PagesBuilder extends EventEmitter {
     /**
      * @description Метод для установки формата нумерования страниц
      * @param {string} format="%c / %m" - Формат нумерования
-     * @return this
+     * @return {PagesBuilder}
      */
     setPagesNumberFormat(format = "%c / %m") {
         this.pagesNumberFormat = format;
@@ -121,7 +126,7 @@ export class PagesBuilder extends EventEmitter {
     /**
      * @description Метод для установки бесконечного переключения между страницами при достижении конца
      * @param {Boolean} status=true - Значение для бесконечного переключения между страницами
-     * @return this
+     * @return {PagesBuilder}
      */
     setInfinityLoop(status = true) {
         this.infinityLoop = status;
@@ -132,7 +137,7 @@ export class PagesBuilder extends EventEmitter {
     /**
      * @description Метод для установки верхней части страниц
      * @param {string} header - Строка для верхней части страниц
-     * @return {this}
+     * @return {PagesBuilder}
      */
     setPagesHeader(header = "") {
         this.header = header;
@@ -143,7 +148,7 @@ export class PagesBuilder extends EventEmitter {
     /**
      * @description Метод для установки нижней части страниц
      * @param {string} footer - Строка для нижней части страниц
-     * @return {this}
+     * @return {PagesBuilder}
      */
     setPagesFooter(footer = "") {
         this.footer = footer;
@@ -154,7 +159,7 @@ export class PagesBuilder extends EventEmitter {
     /**
      * @description Метод для установки метода отправки страницы
      * @param {"send_new"|"edit"} method - Метод отправки
-     * @return this
+     * @return {PagesBuilder}
      */
     setSendMethod(method = "send_new") {
         this.sendMethod = method;
@@ -200,7 +205,7 @@ export class PagesBuilder extends EventEmitter {
     /**
      * @description Метод для установки времени прослушивания обновлений для переключения страниц
      * @param {number} time=300000 - Время прослушивания в миллисекундах. По умолчанию 5 минут
-     * @return this
+     * @return {PagesBuilder}
      */
     setListenTime(time = 5 * 60 * 1000) {
         this.listenTime = time;
@@ -224,7 +229,7 @@ export class PagesBuilder extends EventEmitter {
     /**
      * @description Метод для установки прослушивания определенных пользователей
      * @param {[number]|number} users=[] - Пользователи для прослушивания
-     * @return this
+     * @return {PagesBuilder}
      */
     setListenUsers(users = []) {
         if (!Array.isArray(users)) {
@@ -239,7 +244,7 @@ export class PagesBuilder extends EventEmitter {
     /**
      * @description Метод для добавления прослушивания определенных пользователей
      * @param {[number]|number} users=[] - Пользователи для прослушивания
-     * @return this
+     * @return {PagesBuilder}
      */
     addListenUsers(users = []) {
         this.listenUsers = this.listenUsers.concat(users);
@@ -269,7 +274,7 @@ export class PagesBuilder extends EventEmitter {
      * @description Метод для установки кнопок по умолчанию
      * @param {["first", "back", "stop", "next", "last"]} [buttons] - Названия кнопок
      * @param {"text"|"callback"} [type="text"] - Тип кнопок
-     * @return this
+     * @return {PagesBuilder}
      */
     setDefaultButtons(buttons = ["first", "back", "stop", "next", "last"], type = "text") {
         const keyboard = Keyboard.builder()
@@ -315,7 +320,7 @@ export class PagesBuilder extends EventEmitter {
     /**
      * @description Метод для обновления клавиатуры
      * @param {KeyboardBuilder} keyboard - Клавиатура
-     * @return this
+     * @return {PagesBuilder}
      */
     updateKeyboard(keyboard = null) {
         this.keyboard = keyboard;
@@ -323,10 +328,18 @@ export class PagesBuilder extends EventEmitter {
         return this;
     }
 
+
+    /**
+     * Триггер сборщика
+     * @typedef {object} Trigger
+     * @property {string} Trigger.name - Название триггера
+     * @property {function} Trigger.callback - Действие триггера
+     */
+
     /**
      * @description Метод для начальной установки триггеров
-     * @param {{name: string, callback: function}[]|{name: string, callback: function}} triggers - Триггеры
-     * @return this
+     * @param {Trigger[]|Trigger} triggers - Триггеры
+     * @return {PagesBuilder}
      */
     setTriggers(triggers) {
         if (!Array.isArray(triggers)) {
@@ -342,8 +355,8 @@ export class PagesBuilder extends EventEmitter {
 
     /**
      * @description Метод для добавления триггеров
-     * @param {{name: string, callback: function}[]|{name: string, callback: function}} triggers - Триггеры
-     * @return this
+     * @param {Trigger[]|Trigger} triggers - Триггеры
+     * @return {PagesBuilder}
      */
     addTriggers(triggers) {
         if (!Array.isArray(triggers)) {
@@ -375,8 +388,8 @@ export class PagesBuilder extends EventEmitter {
     }
 
     /**
-     * @description Функция для сборки и отправки страниц
-     * @return {Promise} - Текущий контекст сборщика
+     * @description Метод для сборки и отправки страниц
+     * @return {Promise<PagesBuilder>}
      */
     build() {
         const { _context: context, pages } = this;
