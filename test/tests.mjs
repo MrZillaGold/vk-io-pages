@@ -74,6 +74,8 @@ export const test = (PagesBuilder, pagesStorage, testType) => {
 
                         for (let i = 2; i <= builder.pages.length; i++) {
                             await builder.setPage(i);
+
+                            builder.sentContext = createContext();
                         }
                     });
                 });
