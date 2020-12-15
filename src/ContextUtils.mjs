@@ -18,7 +18,7 @@ export class ContextUtils {
     _editMessage(messageParams, event = "") {
         const context = this.builder.sentContext;
 
-        if (context.id && this.builder.sendMethod !== "send_new") {
+        if (this.builder.sendMethod !== "send_new") {
             return context.editMessage(messageParams)
                 .catch((error) => {
                     if (error?.code === 909) {
@@ -27,14 +27,19 @@ export class ContextUtils {
                                 this.builder.sentContext = context;
 
                                 this.builder._saveContext();
-                            })
+                            });
                     }
 
                     throw error;
                 });
         } else {
             if (event !== "stop") {
-                return context.send(messageParams);
+                return context.send(messageParams)
+                    .then((context) => {
+                        this.builder.sentContext = context;
+
+                        this.builder._saveContext();
+                    });
             }
         }
     }

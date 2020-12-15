@@ -332,8 +332,8 @@ export class PagesBuilder extends EventEmitter {
     /**
      * Триггер сборщика
      * @typedef {object} Trigger
-     * @property {string} Trigger.name - Название триггера
-     * @property {function} Trigger.callback - Действие триггера
+     * @property {string} name - Название триггера
+     * @property {function} callback - Действие триггера
      */
 
     /**
