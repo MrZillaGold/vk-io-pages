@@ -1,6 +1,6 @@
 # Keyboard
 <dl>
-<dt><a href="#setDefaultButtons">setDefaultButtons(buttons, type)</a> ⇒ <code>PagesBuilder</code>;</dt>
+<dt><a href="#setDefaultButtons">setDefaultButtons(options)</a> ⇒ <code>PagesBuilder</code>;</dt>
 <dd><p>Метод для установки кнопок по умолчанию</p></dd>
 
 <dt><a href="#updateKeyboard">updateKeyboard(keyboard)</a> ⇒ <code>PagesBuilder</code>;</dt>
@@ -9,15 +9,16 @@
 
 <a name="setDefaultButtons"></a>
 
-## setDefaultButtons(buttons, type) ⇒ <code>PagesBuilder</code>;
+## setDefaultButtons(options) ⇒ <code>PagesBuilder</code>;
 Метод для установки кнопок по умолчанию
 
 **Возвращает**: `PagesBuilder`
 
-| Параметры | Тип                                                 | По умолчанию                                        | Описание        |
-| --------- | --------------------------------------------------- | --------------------------------------------------- | --------------- |
-| buttons   | [`"first"`, `"back"`, `"stop"`, `"next"`, `"last"`] | [`"first"`, `"back"`, `"stop"`, `"next"`, `"last"`] | Названия кнопок |
-| type      | `"text"` `"callback"`                               | `"text"`                                            | Тип кнопок      |
+| Параметры         | Тип                                                 | По умолчанию                                        | Описание        |
+| ----------------- | --------------------------------------------------- | --------------------------------------------------- | --------------- |
+| options           | `Object`                                            |                                                     |                 |
+| options.buttons   | [`"first"`, `"back"`, `"stop"`, `"next"`, `"last"`] | [`"first"`, `"back"`, `"stop"`, `"next"`, `"last"`] | Названия кнопок |
+| options.type      | `"text"` `"callback"`                               | `"text"`                                            | Тип кнопок      |
 
 💡 При значении [`infinityLoop`](pages.md#setInfinityLoop) = `false`, кнопки быстрых действий будут удаляться в зависимости от того, имеют ли они смысл для текущей страницы.
 
@@ -26,7 +27,7 @@
 ```js
 const builder = context.pageBuilder();
 
-builder.setDefaultButtons(["stop", "next", "last"], "callback");
+builder.setDefaultButtons({ buttons: ["stop", "next", "last"], type: "callback" });
 ```
 
 <a name="updateKeyboard"></a>

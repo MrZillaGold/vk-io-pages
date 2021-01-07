@@ -1,9 +1,11 @@
 .idea
 .github
 .circleci
+.gitignore
 scripts
 docs
-.gitignore
 test
+src
+build
 babel.config.json
-
+tsconfig.json

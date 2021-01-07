@@ -1,19 +1,24 @@
 {
   "name": "vk-io-pages",
-  "version": "1.4.3",
+  "version": "1.5.0",
   "description": "Модуль vk-io для создания динамических страниц",
-  "main": "./lib/PagesManager.js",
-  "exports": {
-    ".": {
-      "require": "./lib/PagesManager.js",
-      "default": "./src/PagesManager.mjs"
-    }
-  },
-  "module": "./src/PagesManager.mjs",
   "scripts": {
-    "build": "babel src --out-dir lib && node --experimental-modules --es-module-specifier-resolution=node ./scripts/fixImports.mjs",
+    "tsc": "tsc && node --experimental-modules --es-module-specifier-resolution=node ./scripts/removeEmptyFiles.mjs",
+    "build": "npm run-script tsc && babel build --out-dir lib --copy-files && node --experimental-modules --es-module-specifier-resolution=node ./scripts/fixImports.mjs",
     "test": "npm run-script build && node --experimental-modules --experimental-json-modules node_modules/mocha/bin/_mocha --reporter spec --timeout 30000 --exit"
   },
+  "main": "./lib/PagesManager.js",
+  "exports": {
+    ".": [
+      {
+        "require": "./lib/PagesManager.js",
+        "import": "./esm/index.mjs"
+      },
+      "./lib/PagesManager.js"
+    ],
+    "./esm": "./esm/index.mjs"
+  },
+  "types": "./lib/interfaces.d.ts",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/MrZillaGold/vk-io-pages.git"
@@ -38,8 +43,9 @@
     "@babel/core": "^7.12.3",
     "@babel/plugin-proposal-nullish-coalescing-operator": "^7.12.1",
     "@babel/plugin-transform-modules-commonjs": "^7.12.1",
-    "@babel/plugin-transform-runtime": "^7.12.1",
     "@babel/preset-env": "^7.12.1",
-    "mocha": "^8.2.0"
+    "@types/node": "^14.14.20",
+    "mocha": "^8.2.0",
+    "typescript": "^4.1.3"
   }
 }

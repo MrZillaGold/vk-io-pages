@@ -24,7 +24,7 @@ hearManager.hear("/start", (context) => {
             "2 страница",
             "3 страница"
         ])
-        .setDefaultButtons(["back", "next"]);
+        .setDefaultButtons({ buttons: ["back", "next"] });
 
     const keyboard = builder.keyboard;
 
@@ -54,7 +54,7 @@ hearManager.hear("/clone", (context) => {
         api: vk.api, // API нужен для отметки сообщений прочитанными, по желанию можете не передавать.
         context // Контекст текущего сообщения
     })
-        .setDefaultButtons(["back", "next"]);
+        .setDefaultButtons({ buttons: ["back", "next"] });
 
     builder.setPages(
         ["1", "2"].map((number) => {
