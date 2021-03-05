@@ -1,5 +1,3 @@
-import { pagesStorage } from "./PagesBuilder";
-
 export function randomString(length: number): string {
     const characters = "abcdefghijklmnopqrstuvwxyz";
 
@@ -10,11 +8,4 @@ export function randomString(length: number): string {
     }
 
     return string;
-}
-
-/**
- * Функция для проверки наличия сборщика
- */
-export function hasBuilder(builderId: string): boolean {
-    return pagesStorage.has(builderId);
 }

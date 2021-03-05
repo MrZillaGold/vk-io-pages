@@ -1,6 +1,6 @@
 {
   "name": "vk-io-pages",
-  "version": "1.5.2",
+  "version": "1.5.3",
   "description": "Модуль vk-io для создания динамических страниц",
   "scripts": {
     "tsc": "tsc && node --experimental-modules --es-module-specifier-resolution=node ./scripts/removeEmptyFiles.mjs",

@@ -42,6 +42,14 @@ export class PagesManager {
     }
 
     /**
+     * Функция для проверки наличия сборщика
+     */
+    static hasBuilder(builderId: string): boolean {
+        return pagesStorage.has(builderId);
+    }
+
+
+    /**
      * Метод для установки обработчика при отсутствии сборщика
      */
     onFallback(handler: Fallback): this {
@@ -51,7 +59,6 @@ export class PagesManager {
     }
 }
 
-export { hasBuilder } from "./functions";
 export {
     PagesBuilder,
     pagesStorage

@@ -1,7 +1,7 @@
 import assert from "assert";
 import VKIO from "vk-io";
 
-import { PagesBuilder, pagesStorage } from "../esm/index.mjs";
+import { PagesBuilder, PagesManager } from "../esm/index.mjs";
 
 const { VK, getRandomId, Keyboard } = VKIO;
 
@@ -67,17 +67,15 @@ describe("Pages", () => {
             builder.addPages("Test");
             builder.addPages(pages);
 
-            await assert.doesNotReject(async () => {
-                await builder.build();
+            await builder.build();
+
+            builder.sentContext = createContext();
+
+            for (let i = 2; i <= builder.pages.length; i++) {
+                await builder.setPage(i);
 
                 builder.sentContext = createContext();
-
-                for (let i = 2; i <= builder.pages.length; i++) {
-                    await builder.setPage(i);
-
-                    builder.sentContext = createContext();
-                }
-            });
+            }
         });
     }
 
@@ -121,7 +119,7 @@ describe("Listen", () => {
         it("Остановка прослушивания", () => {
             builder.stopListen();
 
-            assert.ok(pagesStorage.get(builder.id) === undefined);
+            assert.ok(PagesManager.hasBuilder(builder.id) === false);
         });
     }
 });
