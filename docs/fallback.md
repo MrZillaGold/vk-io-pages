@@ -45,5 +45,5 @@ pagesManager.onFallback((context, next) => {
 const builder = context.pageBuilder()
             .build();
 
-console.log(hasBuilder(builder.builder_id));
+console.log(PagesManager.hasBuilder(builder.builder_id));
 ```
