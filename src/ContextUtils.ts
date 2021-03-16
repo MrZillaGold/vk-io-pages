@@ -1,6 +1,7 @@
+import { IMessageContextSendOptions, MessageContext } from "vk-io";
+
 import { PagesBuilder } from "./PagesBuilder";
 
-import { IMessageContextSendOptions, MessageContext } from "vk-io";
 import { IPagesBuilderOptions } from "./interfaces/pagesBuilder";
 
 export class ContextUtils {
@@ -11,7 +12,7 @@ export class ContextUtils {
         this.builder = builder;
     }
 
-    _markAsRead(context: MessageContext) {
+    markAsRead(context: MessageContext) {
         const api = this.builder._api;
 
         if (api) {
@@ -22,7 +23,7 @@ export class ContextUtils {
         }
     }
 
-    _editMessage(messageParams: IMessageContextSendOptions, event = "") {
+    editMessage(messageParams: IMessageContextSendOptions, event = "") {
         const context: IPagesBuilderOptions["context"] | null = this.builder.sentContext;
 
         if (context) {
@@ -34,7 +35,7 @@ export class ContextUtils {
                                 .then((context: MessageContext) => {
                                     this.builder.sentContext = context;
 
-                                    this.builder._saveContext();
+                                    this.builder.saveContext();
                                 });
                         }
 
@@ -46,7 +47,7 @@ export class ContextUtils {
                         .then((context: MessageContext) => {
                             this.builder.sentContext = context;
 
-                            this.builder._saveContext();
+                            this.builder.saveContext();
                         });
                 }
             }

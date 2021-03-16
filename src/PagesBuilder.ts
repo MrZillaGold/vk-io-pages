@@ -13,26 +13,27 @@ export class PagesBuilder extends Event.EventEmitter {
     _api: IPagesBuilderOptions["api"];
     _context: IPagesBuilderOptions["context"];
 
-    readonly id: string;
+    readonly id: string = randomString(6);
 
-    pages: Page[];
-    header: string;
-    footer: string;
-    currentPage: number;
-    infinityLoop: boolean;
-    resetTimeout: boolean;
-    pagesNumberFormat: string;
-    sendMethod: string;
+    pages: Page[] = [];
+    protected header: string = "";
+    protected footer: string = "";
+    protected currentPage: number = 1;
+    protected infinityLoop: boolean = true;
+    protected resetTimeout: boolean = false;
+    protected pagesNumberFormat: string = "%c / %m";
+    sendMethod: string = "send_new";
 
-    listenTime: number;
-    protected _listenTimeout: NodeJS.Timeout | null;
-    listenUsers: number[];
+    protected listenTime: number = 5 * 60 * 1000; // 5 минут
+    protected _listenTimeout: NodeJS.Timeout | null = null;
+    protected listenUsers: number[] = [];
 
-    triggers: TriggersMap;
+    protected triggers: TriggersMap = new Map();
 
-    sentContext: IPagesBuilderOptions["context"] | null;
+    sentContext: IPagesBuilderOptions["context"] | null = null;
 
-    keyboard: KeyboardBuilder;
+    keyboard: KeyboardBuilder = Keyboard.builder()
+        .inline();
 
     constructor({ api = null, context }: IPagesBuilderOptions) {
         super();
@@ -40,27 +41,6 @@ export class PagesBuilder extends Event.EventEmitter {
         this._api = api;
         this._context = context;
 
-        this.id = randomString(6);
-
-        this.pages = [];
-        this.header = "";
-        this.footer = "";
-        this.currentPage = 1;
-        this.infinityLoop = true;
-        this.resetTimeout = false;
-        this.pagesNumberFormat = "%c / %m";
-        this.sendMethod = "send_new";
-
-        this.listenTime = 5 * 60 * 1000; // 5 минут
-        this._listenTimeout = null;
-        this.listenUsers = [];
-
-        this.triggers = new Map();
-
-        this.sentContext = null;
-
-        this.keyboard = Keyboard.builder()
-            .inline();
         this.setDefaultButtons();
     }
 
@@ -92,14 +72,14 @@ export class PagesBuilder extends Event.EventEmitter {
             this.resetListenTimeout();
         }
 
-        this._saveContext();
+        this.saveContext();
 
-        const page = await this._getPage(pageNumber);
+        const page = await this.getPage(pageNumber);
 
         this.emit("page_set", pageNumber);
 
         return new ContextUtils(this)
-            ._editMessage(page);
+            .editMessage(page);
     }
 
     /*
@@ -108,7 +88,7 @@ export class PagesBuilder extends Event.EventEmitter {
     autoResetTimeout(status: boolean = true): this {
         this.resetTimeout = status;
 
-        this._saveContext();
+        this.saveContext();
 
         return this;
     }
@@ -119,6 +99,8 @@ export class PagesBuilder extends Event.EventEmitter {
     setPagesNumberFormat(format: string = "%c / %m"): this {
         this.pagesNumberFormat = format;
 
+        this.saveContext();
+
         return this;
     }
 
@@ -127,6 +109,8 @@ export class PagesBuilder extends Event.EventEmitter {
      */
     setInfinityLoop(status: boolean = true): this {
         this.infinityLoop = status;
+
+        this.saveContext();
 
         return this;
     }
@@ -137,6 +121,8 @@ export class PagesBuilder extends Event.EventEmitter {
     setPagesHeader(header: string = ""): this {
         this.header = header;
 
+        this.saveContext();
+
         return this;
     }
 
@@ -145,6 +131,8 @@ export class PagesBuilder extends Event.EventEmitter {
      */
     setPagesFooter(footer: string = ""): this {
         this.footer = footer;
+
+        this.saveContext();
 
         return this;
     }
@@ -155,10 +143,12 @@ export class PagesBuilder extends Event.EventEmitter {
     setSendMethod(method: PageSentMethod = "send_new"): this {
         this.sendMethod = method;
 
+        this.saveContext();
+
         return this;
     }
 
-    private async _getPage(pageNumber: number = this.currentPage): Promise<IMessageContextSendOptions> {
+    private async getPage(pageNumber: number = this.currentPage): Promise<IMessageContextSendOptions> {
         let page: Page = this.pages[pageNumber - 1];
 
         if (typeof page === "function") {
@@ -174,7 +164,7 @@ export class PagesBuilder extends Event.EventEmitter {
         let keyboard = (page.keyboard ?? this.keyboard) as KeyboardBuilder;
 
         if (!this.infinityLoop) {
-            keyboard = this._cleanUpKeyboard();
+            keyboard = this.cleanUpKeyboard();
         }
 
         const pagePagination = this.pagesNumberFormat.replace("%c", String(pageNumber))
@@ -196,6 +186,8 @@ export class PagesBuilder extends Event.EventEmitter {
     setListenTime(time: number = 5 * 60 * 1000): this {
         this.listenTime = time;
 
+        this.saveContext();
+
         return this;
     }
 
@@ -208,7 +200,7 @@ export class PagesBuilder extends Event.EventEmitter {
 
             this._listenTimeout = setTimeout(this.stopListen.bind(this), this.listenTime);
 
-            this._saveContext();
+            this.saveContext();
 
             this.emit("listen_reset_timeout");
         }
@@ -224,6 +216,8 @@ export class PagesBuilder extends Event.EventEmitter {
 
         this.listenUsers = users;
 
+        this.saveContext();
+
         return this;
     }
 
@@ -232,6 +226,8 @@ export class PagesBuilder extends Event.EventEmitter {
      */
     addListenUsers(users: number | number[] = []): this {
         this.listenUsers = this.listenUsers.concat(users);
+
+        this.saveContext();
 
         return this;
     }
@@ -246,10 +242,10 @@ export class PagesBuilder extends Event.EventEmitter {
 
             this.emit("listen_stop", this.currentPage);
 
-            const page: IMessageContextSendOptions = await this._getPage(this.currentPage);
+            const page: IMessageContextSendOptions = await this.getPage(this.currentPage);
 
             new ContextUtils(this)
-                ._editMessage({
+                .editMessage({
                     ...page,
                     keyboard: JSON.stringify({})
                 }, "stop");
@@ -300,6 +296,8 @@ export class PagesBuilder extends Event.EventEmitter {
 
         this.keyboard = keyboard;
 
+        this.saveContext();
+
         return this;
     }
 
@@ -309,6 +307,8 @@ export class PagesBuilder extends Event.EventEmitter {
     updateKeyboard(keyboard: KeyboardBuilder | null = null): this {
         this.keyboard = keyboard ?? Keyboard.builder()
             .inline(true);
+
+        this.saveContext();
 
         return this;
     }
@@ -325,6 +325,8 @@ export class PagesBuilder extends Event.EventEmitter {
             triggers.map(({ name, callback }) => [name, callback])
         );
 
+        this.saveContext();
+
         return this;
     }
 
@@ -340,10 +342,12 @@ export class PagesBuilder extends Event.EventEmitter {
             this.triggers.set(name, callback);
         });
 
+        this.saveContext();
+
         return this;
     }
 
-    private _executeTrigger(trigger: ITrigger["name"]) {
+    private executeTrigger(trigger: ITrigger["name"]) {
         const triggerAction: ITrigger["callback"] | undefined = this.triggers.get(trigger);
 
         if (triggerAction) {
@@ -367,11 +371,11 @@ export class PagesBuilder extends Event.EventEmitter {
                 );
             }
 
-            context.send(await this._getPage(1))
+            context.send(await this.getPage(1))
                 .then((sentContext: MessageContext) => {
                     this.sentContext = sentContext;
 
-                    this._saveContext();
+                    this.saveContext();
 
                     this.emit("listen_start");
 
@@ -383,11 +387,11 @@ export class PagesBuilder extends Event.EventEmitter {
         });
     }
 
-    _saveContext(): void {
+    saveContext(): void {
         pagesStorage.set(this.id, this);
     }
 
-    private _cleanUpKeyboard() {
+    private cleanUpKeyboard() {
         const keyboard = JSON.parse(this.keyboard.toString());
 
         keyboard.buttons = keyboard.buttons.map((row: KeyboardButton[]) =>
@@ -421,7 +425,7 @@ export class PagesBuilder extends Event.EventEmitter {
         return keyboard;
     }
 
-    private _executeAction(action: DefaultButtonAction): void {
+    private executeAction(action: DefaultButtonAction): void {
         this.emit("page_action_execute", action);
 
         switch (action) {
@@ -479,7 +483,7 @@ export class PagesBuilder extends Event.EventEmitter {
         }
     }
 
-    _messageMiddleware(context: MessageContext | MessageEventContext): void {
+    messageMiddleware(context: MessageContext | MessageEventContext): void {
         this._context = context;
 
         const payload: MessageContext["messagePayload"] | MessageEventContext["eventPayload"] = context?.messagePayload || context?.eventPayload;
@@ -497,11 +501,11 @@ export class PagesBuilder extends Event.EventEmitter {
             const contextUtils: ContextUtils = new ContextUtils(this);
 
             if (context.type !== "message_event") {
-                contextUtils._markAsRead(context);
+                contextUtils.markAsRead(context);
             }
 
             if (action) {
-                this._executeAction(action);
+                this.executeAction(action);
             } else if (page) {
                 if (page >= 1 && page <= this.pages.length) {
                     if (page === this.currentPage && context.type !== "message_event") {
@@ -513,7 +517,7 @@ export class PagesBuilder extends Event.EventEmitter {
             }
 
             if (trigger) {
-                this._executeTrigger(trigger);
+                this.executeTrigger(trigger);
             }
         }
     }

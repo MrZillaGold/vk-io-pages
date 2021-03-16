@@ -46,7 +46,7 @@ describe("Pages", () => {
         builder.setPages(pages);
 
         for (let i = 1; i <= builder.pages.length; i++) {
-            const builderPage = await builder._getPage(i);
+            const builderPage = await builder.getPage(i);
 
             assert.deepStrictEqual(builderPage, {
                 message: `${page}\n\n${i} / 4`,
@@ -142,7 +142,7 @@ describe("Triggers", () => {
             }
         ]);
 
-        await builder._executeTrigger("test");
+        await builder.executeTrigger("test");
 
         assert.ok(number === 2);
     });

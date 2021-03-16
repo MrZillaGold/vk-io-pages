@@ -29,7 +29,7 @@ export class PagesManager {
                 const pagesInstance: PagesBuilder | undefined = pagesStorage.get(builderId);
 
                 if (pagesInstance) {
-                    pagesInstance._messageMiddleware(context);
+                    pagesInstance.messageMiddleware(context);
                 } else {
                     if (this.fallbackHandler) {
                         return this.fallbackHandler(context, next);
