@@ -1,4 +1,4 @@
-# Fallabck
+# Fallback
 <dl>
 <dt><a href="#onFallback">onFallback(handler)</a> ⇒ <code>this</code>;</dt>
 <dd><p>Метод для установки обработчика при отсутствии сборщика</p></dd>
