@@ -63,7 +63,7 @@ export class PagesBuilder extends Event.EventEmitter {
     /*
      * Метод для открытия определенной страницы
      */
-    async setPage(pageNumber: number): Promise<MessageContext> {
+    async setPage(pageNumber = this.currentPage): Promise<MessageContext> {
         this.currentPage = pageNumber;
 
         if (this.resetTimeout) {
@@ -440,7 +440,7 @@ export class PagesBuilder extends Event.EventEmitter {
                     return;
                 }
 
-                this.setPage(1);
+                this.setPage();
 
                 break;
             case "back":
@@ -461,7 +461,7 @@ export class PagesBuilder extends Event.EventEmitter {
             case "next":
                 if (this.currentPage === this.pages.length) {
                     if (this.infinityLoop) {
-                        this.setPage(1);
+                        this.setPage();
                     }
 
                     return;
@@ -473,7 +473,7 @@ export class PagesBuilder extends Event.EventEmitter {
             case "last":
                 if (this.currentPage === this.pages.length) {
                     if (this.infinityLoop) {
-                        this.setPage(1);
+                        this.setPage();
                     }
 
                     return;
