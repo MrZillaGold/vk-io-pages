@@ -1,24 +1,18 @@
-import { API } from "vk-io";
-
 import { PagesBuilder, pagesStorage } from "./PagesBuilder";
 
-import { IPagesManagerOptions, IPagesBuilderOptions, Middleware, Fallback } from "./interfaces";
+import { IPagesBuilderOptions, Middleware, Fallback } from "./interfaces";
 
 export class PagesManager {
 
-    api: API | null;
     fallbackHandler: Fallback;
 
-    constructor({ api = null }: IPagesManagerOptions = {}) {
-        this.api = api;
-
+    constructor() {
         this.fallbackHandler = null;
     }
 
     get middleware(): Middleware {
         return (context: IPagesBuilderOptions["context"], next: () => void) => {
             context.pageBuilder = (options: object = {}): PagesBuilder => new PagesBuilder({
-                api: this.api,
                 context,
                 ...options
             });

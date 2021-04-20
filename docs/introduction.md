@@ -20,9 +20,7 @@ const vk = new VK({
 });
 
 
-const pagesManager = new PagesManager({
-    api: vk.api // API нужен для отметки сообщений прочитанными, по желанию можете не передавать.
-});
+const pagesManager = new PagesManager();
 const hearManager = new HearManager();
 
 vk.updates.on("message_event", pagesManager.middleware);

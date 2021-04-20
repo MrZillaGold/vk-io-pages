@@ -10,7 +10,6 @@ export const pagesStorage: PagesStorage = new Map();
 
 export class PagesBuilder extends Event.EventEmitter {
 
-    _api: IPagesBuilderOptions["api"];
     _context: IPagesBuilderOptions["context"];
 
     readonly id: string = randomString(6);
@@ -35,10 +34,9 @@ export class PagesBuilder extends Event.EventEmitter {
     keyboard: KeyboardBuilder = Keyboard.builder()
         .inline();
 
-    constructor({ api = null, context }: IPagesBuilderOptions) {
+    constructor({ context }: IPagesBuilderOptions) {
         super();
 
-        this._api = api;
         this._context = context;
 
         this.setDefaultButtons();

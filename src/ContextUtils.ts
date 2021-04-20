@@ -13,14 +13,10 @@ export class ContextUtils {
     }
 
     markAsRead(context: MessageContext) {
-        const api = this.builder._api;
-
-        if (api) {
-            api.messages.markAsRead({
-                peer_id: context.peerId
-            })
-                .catch(() => {});
-        }
+        context["api"].messages.markAsRead({
+            peer_id: context.peerId
+        })
+            .catch(() => {});
     }
 
     editMessage(messageParams: IMessageContextSendOptions, event = "") {
