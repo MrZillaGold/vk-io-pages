@@ -440,7 +440,7 @@ export class PagesBuilder extends Event.EventEmitter {
                     return;
                 }
 
-                this.setPage();
+                this.setPage(1);
 
                 break;
             case "back":
@@ -461,7 +461,7 @@ export class PagesBuilder extends Event.EventEmitter {
             case "next":
                 if (this.currentPage === this.pages.length) {
                     if (this.infinityLoop) {
-                        this.setPage();
+                        this.setPage(1);
                     }
 
                     return;
@@ -473,7 +473,7 @@ export class PagesBuilder extends Event.EventEmitter {
             case "last":
                 if (this.currentPage === this.pages.length) {
                     if (this.infinityLoop) {
-                        this.setPage();
+                        this.setPage(1);
                     }
 
                     return;
