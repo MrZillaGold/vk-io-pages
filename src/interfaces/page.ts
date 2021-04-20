@@ -1,9 +1,14 @@
 import { IMessageContextSendOptions } from "vk-io";
 
 import { IPagesBuilderOptions } from "./pagesBuilder";
+import { FunctionalKeyboard } from "./keyboard";
+
+type ExtendedMessageContextOptions = IMessageContextSendOptions & {
+    keyboard?: FunctionalKeyboard
+};
 
 export type StringPage = string;
-export type ObjectPage = IMessageContextSendOptions;
+export type ObjectPage = ExtendedMessageContextOptions;
 export type FunctionPage = (context: IPagesBuilderOptions["context"]) => StringPage | ObjectPage;
 
 export type Page = StringPage | ObjectPage | FunctionPage;

@@ -159,10 +159,14 @@ export class PagesBuilder extends Event.EventEmitter {
             };
         }
 
-        let keyboard = (page.keyboard ?? this.keyboard) as KeyboardBuilder;
+        let keyboard = page.keyboard ?? this.keyboard as KeyboardBuilder;
+
+        if (typeof keyboard === "function") {
+            keyboard = await keyboard(this._context);
+        }
 
         if (!this.infinityLoop) {
-            keyboard = this.cleanUpKeyboard(keyboard);
+            keyboard = this.cleanUpKeyboard(keyboard as KeyboardBuilder);
         }
 
         const pagePagination = this.pagesNumberFormat.replace("%c", String(pageNumber))
