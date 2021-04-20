@@ -164,7 +164,7 @@ export class PagesBuilder extends Event.EventEmitter {
         let keyboard = (page.keyboard ?? this.keyboard) as KeyboardBuilder;
 
         if (!this.infinityLoop) {
-            keyboard = this.cleanUpKeyboard();
+            keyboard = this.cleanUpKeyboard(keyboard);
         }
 
         const pagePagination = this.pagesNumberFormat.replace("%c", String(pageNumber))
@@ -391,8 +391,8 @@ export class PagesBuilder extends Event.EventEmitter {
         pagesStorage.set(this.id, this);
     }
 
-    private cleanUpKeyboard() {
-        const keyboard = JSON.parse(this.keyboard.toString());
+    private cleanUpKeyboard(keyboardBuilder: KeyboardBuilder) {
+        const keyboard = JSON.parse(keyboardBuilder.toString());
 
         keyboard.buttons = keyboard.buttons.map((row: KeyboardButton[]) =>
             row.filter((button: KeyboardButton | any) => {
