@@ -1,10 +1,10 @@
-import { Keyboard, KeyboardBuilder, MessageContext, IMessageContextSendOptions, MessageEventContext, IKeyboardTextButtonOptions, KeyboardButton } from "vk-io";
 import * as Event from "events";
+import { Keyboard, KeyboardBuilder, MessageContext, IMessageContextSendOptions, MessageEventContext, KeyboardButton } from "vk-io";
 
 import { ContextUtils } from "./ContextUtils";
 import { randomString } from "./functions";
 
-import { IPagesBuilderOptions, ISetDefaultButtonsOptions, IResetListenTimeoutOptions, ITrigger, DefaultButtonLabel, DefaultButtonsMap, TriggersMap, Page, PageSentMethod, DefaultButtonAction, PagesStorage } from "./interfaces";
+import { IPagesBuilderOptions, ISetDefaultButtonsOptions, IResetListenTimeoutOptions, ITrigger, DefaultButtonsMap, TriggersMap, Page, PageSentMethod, DefaultButtonAction, PagesStorage } from "./interfaces";
 
 export const pagesStorage: PagesStorage = new Map();
 
@@ -244,7 +244,7 @@ export class PagesBuilder extends Event.EventEmitter {
 
             this.emit("listen_stop", this.currentPage);
 
-            const page: IMessageContextSendOptions = await this.getPage(this.currentPage);
+            const page = await this.getPage(this.currentPage);
 
             new ContextUtils(this)
                 .editMessage({
@@ -273,10 +273,10 @@ export class PagesBuilder extends Event.EventEmitter {
         ]);
 
         buttons.forEach((button) => {
-            const label: DefaultButtonLabel | undefined = defaultButtons.get(button);
+            const label = defaultButtons.get(button);
 
             if (label) {
-                const buttonObject: IKeyboardTextButtonOptions = {
+                const buttonObject = {
                     label,
                     payload: {
                         builder_action: button,
@@ -350,7 +350,7 @@ export class PagesBuilder extends Event.EventEmitter {
     }
 
     private executeTrigger(trigger: ITrigger["name"]) {
-        const triggerAction: ITrigger["callback"] | undefined = this.triggers.get(trigger);
+        const triggerAction = this.triggers.get(trigger);
 
         if (triggerAction) {
             this.emit("trigger_execute", trigger);
@@ -362,8 +362,8 @@ export class PagesBuilder extends Event.EventEmitter {
     /*
      * Метод для сборки и отправки страниц
      */
-    build(): Promise<this> {
-        const { _context: context, pages } = this;
+    build(loader: MessageContext | null = null): Promise<this> {
+        const { pages } = this;
 
         // eslint-disable-next-line no-async-promise-executor
         return new Promise(async (resolve, reject) => {
@@ -374,12 +374,21 @@ export class PagesBuilder extends Event.EventEmitter {
                 );
             }
 
-            context.send(await this.getPage(1))
-                .then((sentContext: MessageContext) => {
-                    this.sentContext = sentContext;
+            if (loader?.id) {
+                this.sentContext = loader;
 
-                    this.saveContext();
+                if (this.sendMethod === "send_new") {
+                    loader.deleteMessage({
+                        delete_for_all: 1
+                    });
+                }
+            }
 
+            (
+                new ContextUtils(this)
+                    .editMessage(await this.getPage(1)) as Promise<MessageContext>
+            )
+                .then(() => {
                     this.emit("listen_start");
 
                     this.resetListenTimeout({ isFirstBuild: true });
