@@ -12,7 +12,7 @@ export class PagesManager {
 
     get middleware(): Middleware {
         return (context: IPagesBuilderOptions["context"], next: () => void) => {
-            context.pageBuilder = (options: Record<string, unknown> = {}): PagesBuilder => new PagesBuilder({
+            context.pagesBuilder = context.pageBuilder = (options: Record<string, unknown> = {}): PagesBuilder => new PagesBuilder({
                 context,
                 ...options
             });
