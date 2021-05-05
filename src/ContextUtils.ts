@@ -32,6 +32,8 @@ export class ContextUtils {
                                     this.builder.sentContext = context;
 
                                     this.builder.saveContext();
+
+                                    return context;
                                 });
                         }
 
@@ -44,6 +46,8 @@ export class ContextUtils {
                             this.builder.sentContext = context;
 
                             this.builder.saveContext();
+
+                            return context;
                         });
                 }
             }
