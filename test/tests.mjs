@@ -50,7 +50,7 @@ describe("Pages", () => {
 
             assert.deepStrictEqual(builderPage, {
                 message: `${page}\n\n${i} / 4`,
-                keyboard: builder.keyboard
+                keyboard: builder.keyboard.toString()
             });
         }
     });
