@@ -185,6 +185,8 @@ export class PagesBuilder extends Event.EventEmitter {
 
         if (!this.infinityLoop) {
             keyboard = this.cleanUpKeyboard(keyboard as KeyboardBuilder);
+        } else {
+            keyboard = JSON.parse(keyboard.toString());
         }
 
         const pagePagination = this.pagesNumberFormat.replace("%c", String(pageNumber))
@@ -193,10 +195,12 @@ export class PagesBuilder extends Event.EventEmitter {
         return {
             ...page,
             message: `${this.header}${page.message}${this.footer}\n\n${pagePagination}`,
-            keyboard: JSON.parse(keyboard.toString()).buttons.length ?
-                keyboard
-                :
-                JSON.stringify({})
+            keyboard: JSON.stringify(
+                (keyboard as any).buttons.length ?
+                    keyboard
+                    :
+                    {}
+            )
         };
     }
 
