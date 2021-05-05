@@ -1,6 +1,6 @@
 import { PagesBuilder, pagesStorage } from "./PagesBuilder";
 
-import { IPagesBuilderOptions, Middleware, Fallback } from "./interfaces";
+import { Middleware, Fallback, IContext } from "./interfaces";
 
 export class PagesManager {
 
@@ -11,10 +11,9 @@ export class PagesManager {
     }
 
     get middleware(): Middleware {
-        return (context: IPagesBuilderOptions["context"], next: () => void) => {
-            context.pagesBuilder = context.pageBuilder = (options: Record<string, unknown> = {}): PagesBuilder => new PagesBuilder({
-                context,
-                ...options
+        return (context: IContext, next: () => void) => {
+            context.pagesBuilder = context.pageBuilder = () => new PagesBuilder({
+                context
             });
 
             const builderId = context?.messagePayload?.builder_id || context?.eventPayload?.builder_id;

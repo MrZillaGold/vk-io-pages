@@ -2,7 +2,7 @@ import { IMessageContextSendOptions, MessageContext } from "vk-io";
 
 import { PagesBuilder } from "./PagesBuilder";
 
-import { IPagesBuilderOptions } from "./interfaces/pagesBuilder";
+import { IPagesBuilderOptions, IContext } from "./interfaces";
 
 export class ContextUtils {
 
@@ -12,7 +12,7 @@ export class ContextUtils {
         this.builder = builder;
     }
 
-    markAsRead(context: MessageContext): void {
+    markAsRead(context: IContext): void {
         context["api"].messages.markAsRead({
             peer_id: context.peerId
         })
@@ -28,7 +28,7 @@ export class ContextUtils {
                     .catch((error: any) => {
                         if (error?.code === 909) {
                             return context.send(messageParams)
-                                .then((context: MessageContext) => {
+                                .then((context: IContext) => {
                                     this.builder.sentContext = context;
 
                                     this.builder.saveContext();
@@ -42,7 +42,7 @@ export class ContextUtils {
             } else {
                 if (event !== "stop") {
                     return context.send(messageParams)
-                        .then((context: MessageContext) => {
+                        .then((context: IContext) => {
                             this.builder.sentContext = context;
 
                             this.builder.saveContext();

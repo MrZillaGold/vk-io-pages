@@ -6,7 +6,7 @@ import { Keyboard, KeyboardBuilder, MessageContext, IMessageContextSendOptions, 
 import { ContextUtils } from "./ContextUtils";
 import { randomString } from "./functions";
 
-import { IPagesBuilderOptions, ISetDefaultButtonsOptions, IResetListenTimeoutOptions, ITrigger, DefaultButtonsMap, TriggersMap, Page, PageSentMethod, DefaultButtonAction, PagesStorage, IAutoGeneratePagesOptions } from "./interfaces";
+import { IPagesBuilderOptions, ISetDefaultButtonsOptions, IResetListenTimeoutOptions, ITrigger, DefaultButtonsMap, TriggersMap, Page, PageSentMethod, DefaultButtonAction, PagesStorage, IAutoGeneratePagesOptions, IContext } from "./interfaces";
 
 export const pagesStorage: PagesStorage = new Map();
 
@@ -31,7 +31,7 @@ export class PagesBuilder extends Event.EventEmitter {
 
     protected triggers: TriggersMap = new Map();
 
-    sentContext: IPagesBuilderOptions["context"] | null = null;
+    sentContext: IContext | null = null;
 
     keyboard: KeyboardBuilder = Keyboard.builder()
         .inline();
@@ -393,7 +393,7 @@ export class PagesBuilder extends Event.EventEmitter {
             }
 
             if (loader?.id) {
-                this.sentContext = loader;
+                this.sentContext = loader as unknown as IContext;
 
                 if (this.sendMethod === "send_new") {
                     loader.deleteMessage({
@@ -513,7 +513,7 @@ export class PagesBuilder extends Event.EventEmitter {
         }
     }
 
-    messageMiddleware(context: MessageContext | MessageEventContext): void {
+    messageMiddleware(context: IContext): void {
         this._context = context;
 
         const payload: MessageContext["messagePayload"] | MessageEventContext["eventPayload"] = context?.messagePayload || context?.eventPayload;
