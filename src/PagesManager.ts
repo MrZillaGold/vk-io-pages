@@ -12,7 +12,7 @@ export class PagesManager {
 
     get middleware(): Middleware {
         return (context: IPagesBuilderOptions["context"], next: () => void) => {
-            context.pageBuilder = (options: object = {}): PagesBuilder => new PagesBuilder({
+            context.pageBuilder = (options: Record<string, unknown> = {}): PagesBuilder => new PagesBuilder({
                 context,
                 ...options
             });
@@ -32,7 +32,7 @@ export class PagesManager {
             }
 
             return next();
-        }
+        };
     }
 
     /**
@@ -41,7 +41,6 @@ export class PagesManager {
     static hasBuilder(builderId: string): boolean {
         return pagesStorage.has(builderId);
     }
-
 
     /**
      * Метод для установки обработчика при отсутствии сборщика
@@ -56,4 +55,4 @@ export class PagesManager {
 export {
     PagesBuilder,
     pagesStorage
-}
+};

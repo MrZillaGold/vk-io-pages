@@ -15,15 +15,15 @@ export class PagesBuilder extends Event.EventEmitter {
     readonly id: string = randomString(6);
 
     pages: Page[] = [];
-    protected header: string = "";
-    protected footer: string = "";
-    protected currentPage: number = 1;
-    protected infinityLoop: boolean = true;
-    protected resetTimeout: boolean = false;
-    protected pagesNumberFormat: string = "%c / %m";
-    sendMethod: string = "send_new";
+    protected header = "";
+    protected footer = "";
+    protected currentPage = 1;
+    protected infinityLoop = true;
+    protected resetTimeout = false;
+    protected pagesNumberFormat = "%c / %m";
+    sendMethod: PageSentMethod = "send_new";
 
-    protected listenTime: number = 5 * 60 * 1000; // 5 минут
+    protected listenTime = 5 * 60 * 1000; // 5 минут
     protected _listenTimeout: NodeJS.Timeout | null = null;
     protected listenUsers: number[] = [];
 
@@ -77,13 +77,13 @@ export class PagesBuilder extends Event.EventEmitter {
         this.emit("page_set", pageNumber);
 
         return new ContextUtils(this)
-            .editMessage(page);
+            .editMessage(page) as Promise<MessageContext>;
     }
 
     /*
      * Метод для установки автоматического сброса таймера при переключении между страницами
      */
-    autoResetTimeout(status: boolean = true): this {
+    autoResetTimeout(status = true): this {
         this.resetTimeout = status;
 
         this.saveContext();
@@ -94,7 +94,7 @@ export class PagesBuilder extends Event.EventEmitter {
     /*
      * Метод для установки формата нумерования страниц
      */
-    setPagesNumberFormat(format: string = "%c / %m"): this {
+    setPagesNumberFormat(format = "%c / %m"): this {
         this.pagesNumberFormat = format;
 
         this.saveContext();
@@ -105,7 +105,7 @@ export class PagesBuilder extends Event.EventEmitter {
     /*
      * Метод для установки бесконечного переключения между страницами при достижении конца
      */
-    setInfinityLoop(status: boolean = true): this {
+    setInfinityLoop(status = true): this {
         this.infinityLoop = status;
 
         this.saveContext();
@@ -116,7 +116,7 @@ export class PagesBuilder extends Event.EventEmitter {
     /*
      * Метод для установки верхней части страниц
      */
-    setPagesHeader(header: string = ""): this {
+    setPagesHeader(header = ""): this {
         this.header = header;
 
         this.saveContext();
@@ -127,7 +127,7 @@ export class PagesBuilder extends Event.EventEmitter {
     /*
      * Метод для установки нижней части страниц
      */
-    setPagesFooter(footer: string = ""): this {
+    setPagesFooter(footer = ""): this {
         this.footer = footer;
 
         this.saveContext();
@@ -258,8 +258,8 @@ export class PagesBuilder extends Event.EventEmitter {
      * Метод для установки кнопок по умолчанию
      */
     setDefaultButtons({
-                          buttons = ["first", "back", "stop", "next", "last"],
-                          type = "text"
+        buttons = ["first", "back", "stop", "next", "last"],
+        type = "text"
     }: ISetDefaultButtonsOptions = {}): this {
         const keyboard = Keyboard.builder()
             .inline(true);
@@ -365,6 +365,7 @@ export class PagesBuilder extends Event.EventEmitter {
     build(): Promise<this> {
         const { _context: context, pages } = this;
 
+        // eslint-disable-next-line no-async-promise-executor
         return new Promise(async (resolve, reject) => {
 
             if (pages.length === 0) {
@@ -396,7 +397,7 @@ export class PagesBuilder extends Event.EventEmitter {
     private cleanUpKeyboard(keyboardBuilder: KeyboardBuilder) {
         const keyboard = JSON.parse(keyboardBuilder.toString());
 
-        keyboard.buttons = keyboard.buttons.map((row: KeyboardButton[]) =>
+        keyboard.buttons = keyboard.buttons.map((row: KeyboardButton[]) => (
             row.filter((button: KeyboardButton | any) => {
                 try {
                     const payload = JSON.parse(button.action.payload);
@@ -416,12 +417,12 @@ export class PagesBuilder extends Event.EventEmitter {
                             (this.currentPage === 1 && (builder_action === "first" || builder_action === "back")) ||
                             (this.currentPage === this.pages.length && (builder_action === "last" || builder_action === "next"))
                         );
-                    }
+                    } // eslint-disable-next-line no-empty
                 } catch {}
 
                 return true;
             })
-        )
+        ))
             .filter((row: KeyboardButton[]) => row.length);
 
         return keyboard;
@@ -492,7 +493,7 @@ export class PagesBuilder extends Event.EventEmitter {
 
         const action: DefaultButtonAction | null = payload?.builder_action;
         const builderId: string | null = payload?.builder_id;
-        const page: number = Number(payload?.builder_page);
+        const page = Number(payload?.builder_page);
         const trigger: ITrigger["name"] = payload?.builder_trigger;
 
         if ((action || page || trigger) && builderId === this.id) {

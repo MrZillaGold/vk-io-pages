@@ -12,14 +12,14 @@ export class ContextUtils {
         this.builder = builder;
     }
 
-    markAsRead(context: MessageContext) {
+    markAsRead(context: MessageContext): void {
         context["api"].messages.markAsRead({
             peer_id: context.peerId
         })
-            .catch(() => {});
+            .catch(() => null);
     }
 
-    editMessage(messageParams: IMessageContextSendOptions, event = "") {
+    editMessage(messageParams: IMessageContextSendOptions, event = ""): void | Promise<MessageContext> {
         const context: IPagesBuilderOptions["context"] | null = this.builder.sentContext;
 
         if (context) {
