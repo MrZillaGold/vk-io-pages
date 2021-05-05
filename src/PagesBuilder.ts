@@ -385,7 +385,7 @@ export class PagesBuilder extends Event.EventEmitter {
      * Метод для сборки и отправки страниц
      */
     build(loader: MessageContext | null = null): Promise<this> {
-        const { pages } = this;
+        const { _context: context, pages } = this;
 
         // eslint-disable-next-line no-async-promise-executor
         return new Promise(async (resolve, reject) => {
@@ -406,9 +406,14 @@ export class PagesBuilder extends Event.EventEmitter {
                 }
             }
 
+            const page = await this.getPage(1);
+
             (
-                new ContextUtils(this)
-                    .editMessage(await this.getPage(1)) as Promise<MessageContext>
+                loader ?
+                    new ContextUtils(this)
+                        .editMessage(page) as Promise<MessageContext>
+                    :
+                    context.send(page)
             )
                 .then(() => {
                     this.emit("listen_start");
