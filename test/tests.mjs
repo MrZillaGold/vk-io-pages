@@ -73,6 +73,8 @@ describe("Pages", () => {
 
             await builder.build();
 
+            builder.sentContext = createContext();
+
             for (let i = 2; i <= builder.pages.length; i++) {
                 await builder.setPage(i);
 
