@@ -6,6 +6,9 @@
 <dt><a href="#addPages">addPages(pages)</a> ⇒ <code>PagesBuilder</code>;</dt>
 <dd><p>Метод для добавление страниц в конец</p></dd>
 
+<dt><a href="#autoGeneratePages">autoGeneratePages(options)</a> ⇒ <code>PagesBuilder</code>;</dt>
+<dd><p>Метод для автоматической генерации страниц</p></dd>
+
 <dt><a href="#setPage">setPage(pageNumber)</a> ⇒ <code>Promise<MessageContext></code>;</dt>
 <dd><p>Метод для открытия определенной страницы</p></dd>
 
@@ -42,7 +45,7 @@
 **Пример**:
 
 ```js
-const builder = context.pageBuilder();
+const builder = context.pagesBuilder();
 
 builder.setPages("Текстовая страница");
 builder.setPages(async () => {
@@ -79,9 +82,9 @@ builder.setPages([
 
 **Возвращает**: `PagesBuilder`
 
-| Параметры        | Тип                                  | Описание                |
-| ---------------- | ------------------------------------ | ----------------------- |
-| pages            | `Array` `function` `string` `object` | Страницы для добавления |
+| Параметры | Тип                                  | Описание                |
+| --------- | ------------------------------------ | ----------------------- |
+| pages     | `Array` `function` `string` `object` | Страницы для добавления |
 
 <a name="setPage"></a>
 
@@ -97,10 +100,38 @@ builder.setPages([
 **Пример**:
 
 ```js
-const builder = context.pageBuilder();
+const builder = context.pagesBuilder();
 
 builder.build()
     .setPage(2);
+```
+
+<a name="autoGeneratePages"></a>
+
+## autoGeneratePages(options) ⇒ <code>PagesBuilder</code>;
+Метод для автоматической генерации страниц
+
+**Возвращает**: `PagesBuilder`
+
+| Параметры            | Тип        | По умолчанию | Описание                         |
+| -------------------- | ---------- | ------------ | -------------------------------- |
+| options              | `Object`   |              | Объект с параметрами             |
+| options.items        | `string[]` |              | Массив со строчками              |
+| options.countPerPage | `number`   | `10`         | Количсетво элементов на страницу |
+
+**Пример**:
+
+```js
+const builder = context.pagesBuilder();
+
+builder.autoGeneratePages({
+    items: [
+        "Item 1",
+        "Item 2",
+        "Item 3"
+    ],
+    countPerPage: 2
+});
 ```
 
 <a name="autoResetTimeout"></a>
@@ -117,7 +148,7 @@ builder.build()
 **Пример**:
 
 ```js
-const builder = context.pageBuilder();
+const builder = context.pagesBuilder();
 
 builder.autoResetTimeout();
 ```
@@ -136,7 +167,7 @@ builder.autoResetTimeout();
 **Пример**:
 
 ```js
-const builder = context.pageBuilder();
+const builder = context.pagesBuilder();
 
 builder.setPageNumberFormat("Текущая страница %с / Всего страниц %m");
 ```
@@ -157,7 +188,7 @@ builder.setPageNumberFormat("Текущая страница %с / Всего с
 **Пример**:
 
 ```js
-const builder = context.pageBuilder();
+const builder = context.pagesBuilder();
 
 builder.setInfinityLoop(false);
 ```
@@ -176,7 +207,7 @@ builder.setInfinityLoop(false);
 **Пример**:
 
 ```js
-const builder = context.pageBuilder();
+const builder = context.pagesBuilder();
 
 builder.setPagesHeader("Заголовок страницы");
 ```
@@ -195,7 +226,7 @@ builder.setPagesHeader("Заголовок страницы");
 **Пример**:
 
 ```js
-const builder = context.pageBuilder();
+const builder = context.pagesBuilder();
 
 builder.setPagesFooter("Нижняя часть страницы");
 ```
@@ -214,7 +245,7 @@ builder.setPagesFooter("Нижняя часть страницы");
 **Пример**:
 
 ```js
-const builder = context.pageBuilder();
+const builder = context.pagesBuilder();
 
 builder.setSendMethod("send_new");
 ```

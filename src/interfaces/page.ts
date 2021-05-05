@@ -13,3 +13,8 @@ export type FunctionPage = (context: IPagesBuilderOptions["context"]) => StringP
 
 export type Page = StringPage | ObjectPage | FunctionPage;
 export type PageSentMethod = "send_new" | "edit";
+
+export interface IAutoGeneratePagesOptions {
+    items: string[];
+    countPerPage?: number;
+}

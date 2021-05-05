@@ -17,10 +17,10 @@ export class PagesManager {
                 ...options
             });
 
-            const builderId: string | null = context?.messagePayload?.builder_id || context?.eventPayload?.builder_id;
+            const builderId = context?.messagePayload?.builder_id || context?.eventPayload?.builder_id;
 
             if (builderId) {
-                const pagesInstance: PagesBuilder | undefined = pagesStorage.get(builderId);
+                const pagesInstance = pagesStorage.get(builderId);
 
                 if (pagesInstance) {
                     pagesInstance.messageMiddleware(context);

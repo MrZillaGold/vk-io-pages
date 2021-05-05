@@ -1,10 +1,12 @@
 import * as Event from "events";
+// @ts-ignore
+import * as chunk from "chunk";
 import { Keyboard, KeyboardBuilder, MessageContext, IMessageContextSendOptions, MessageEventContext, KeyboardButton } from "vk-io";
 
 import { ContextUtils } from "./ContextUtils";
 import { randomString } from "./functions";
 
-import { IPagesBuilderOptions, ISetDefaultButtonsOptions, IResetListenTimeoutOptions, ITrigger, DefaultButtonsMap, TriggersMap, Page, PageSentMethod, DefaultButtonAction, PagesStorage } from "./interfaces";
+import { IPagesBuilderOptions, ISetDefaultButtonsOptions, IResetListenTimeoutOptions, ITrigger, DefaultButtonsMap, TriggersMap, Page, PageSentMethod, DefaultButtonAction, PagesStorage, IAutoGeneratePagesOptions } from "./interfaces";
 
 export const pagesStorage: PagesStorage = new Map();
 
@@ -59,6 +61,22 @@ export class PagesBuilder extends Event.EventEmitter {
 
         return this;
     }
+
+    /*
+     * Метод для автоматической генерации страниц
+     */
+    autoGeneratePages({ items, countPerPage = 10 }: IAutoGeneratePagesOptions): this {
+        const chunks = chunk(items, countPerPage);
+
+        this.setPages(
+            chunks.map((chunk) => ({
+                message: chunk.join("\n")
+            }))
+        );
+
+        return this;
+    }
+
 
     /*
      * Метод для открытия определенной страницы
