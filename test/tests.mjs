@@ -59,7 +59,9 @@ describe("Pages", () => {
         it("Сборка и отправка одной страницы", async () => {
             builder.setPages("Test");
 
-            await assert.doesNotReject(() => builder.build());
+            builder.sentContext = createContext();
+
+            await builder.build();
         });
 
         it("Сборка и отправка страниц разного типа", async () => {
@@ -67,9 +69,9 @@ describe("Pages", () => {
             builder.addPages("Test");
             builder.addPages(pages);
 
-            await builder.build();
-
             builder.sentContext = createContext();
+
+            await builder.build();
 
             for (let i = 2; i <= builder.pages.length; i++) {
                 await builder.setPage(i);
