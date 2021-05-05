@@ -5,7 +5,7 @@
   "scripts": {
     "prebuild": "tsc && node --experimental-modules --es-module-specifier-resolution=node ./scripts/removeEmptyFiles.mjs",
     "build": "babel build --out-dir lib --copy-files",
-    "postbuild": "node --experimental-modules --es-module-specifier-resolution=node ./scripts/fixImports.mjs",
+    "postbuild": "node --experimental-modules --es-module-specifier-resolution=node ./scripts/cleanUp.mjs",
     "test": "npm run-script build && node --experimental-modules --experimental-json-modules node_modules/mocha/bin/_mocha --reporter spec --timeout 30000 --exit",
     "eslint:check": "eslint ./src/**/*",
     "eslint:fix": "eslint ./src/**/* --fix"
