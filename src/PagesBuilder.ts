@@ -416,6 +416,11 @@ export class PagesBuilder extends Event.EventEmitter {
                     context.send(page)
             )
                 .then(() => {
+                    if (typeof context === "object") {
+                        this.sentContext = context;
+                        this.saveContext();
+                    }
+
                     this.emit("listen_start");
 
                     this.resetListenTimeout({ isFirstBuild: true });
