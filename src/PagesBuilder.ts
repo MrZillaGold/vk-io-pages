@@ -415,7 +415,7 @@ export class PagesBuilder extends Event.EventEmitter {
                     :
                     context.send(page)
             )
-                .then(() => {
+                .then((context: IContext) => {
                     if (typeof context === "object") {
                         this.sentContext = context;
                         this.saveContext();
