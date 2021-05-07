@@ -77,7 +77,6 @@ export class PagesBuilder extends Event.EventEmitter {
         return this;
     }
 
-
     /*
      * Метод для открытия определенной страницы
      */
@@ -384,7 +383,7 @@ export class PagesBuilder extends Event.EventEmitter {
     /*
      * Метод для сборки и отправки страниц
      */
-    build(loader: MessageContext | null = null): Promise<this> {
+    build(loader: MessageContext | IContext | null = null): Promise<this> {
         const { _context: context, pages } = this;
 
         // eslint-disable-next-line no-async-promise-executor
@@ -396,13 +395,14 @@ export class PagesBuilder extends Event.EventEmitter {
                 );
             }
 
-            if (loader?.id) {
-                this.sentContext = loader as unknown as IContext;
+            if (loader) {
+                this.sentContext = loader as IContext;
 
                 if (this.sendMethod === "send_new") {
                     loader.deleteMessage({
                         delete_for_all: 1
-                    });
+                    })
+                        .catch(() => null);
                 }
             }
 
