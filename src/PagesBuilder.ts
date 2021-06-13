@@ -6,7 +6,7 @@ import { Keyboard, KeyboardBuilder, MessageContext, IMessageContextSendOptions, 
 import { ContextUtils } from "./ContextUtils";
 import { randomString } from "./functions";
 
-import { IPagesBuilderOptions, ISetDefaultButtonsOptions, IResetListenTimeoutOptions, ITrigger, DefaultButtonsMap, TriggersMap, Page, PageSentMethod, DefaultButtonAction, PagesStorage, IAutoGeneratePagesOptions, IContext } from "./interfaces";
+import { IPagesBuilderOptions, ISetDefaultButtonsOptions, IResetListenTimeoutOptions, ITrigger, DefaultButtonsMap, TriggersMap, Page, PageSentMethod, DefaultButtonAction, PagesStorage, IAutoGeneratePagesOptions, IContext, FunctionalKeyboard } from "./interfaces";
 
 export const pagesStorage: PagesStorage = new Map();
 
@@ -176,7 +176,7 @@ export class PagesBuilder extends Event.EventEmitter {
             };
         }
 
-        let keyboard = page.keyboard ?? this.keyboard as KeyboardBuilder;
+        let keyboard = page.keyboard ?? this.keyboard as FunctionalKeyboard;
 
         if (typeof keyboard === "function") {
             keyboard = await keyboard(this._context);
