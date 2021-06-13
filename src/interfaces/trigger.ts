@@ -1,7 +1,7 @@
 import { IPagesBuilderOptions } from "./pagesBuilder";
 
 export interface ITrigger {
-    name: "string";
+    name: string;
     callback: (context: IPagesBuilderOptions["context"]) => unknown;
 }
 
