@@ -1,9 +1,7 @@
 import assert from "assert";
-import VKIO from "vk-io";
+import { VK, getRandomId, Keyboard } from "vk-io";
 
 import { PagesBuilder, PagesManager } from "../esm/index.mjs";
-
-const { VK, getRandomId, Keyboard } = VKIO;
 
 const token = process.env.TOKEN;
 
