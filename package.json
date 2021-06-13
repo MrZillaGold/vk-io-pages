@@ -1,6 +1,6 @@
 {
   "name": "vk-io-pages",
-  "version": "1.7.5",
+  "version": "1.7.6",
   "description": "Модуль vk-io для создания динамических страниц",
   "scripts": {
     "prebuild": "tsc && node --experimental-modules --es-module-specifier-resolution=node ./scripts/removeEmptyFiles.mjs",
@@ -40,7 +40,7 @@
   ],
   "dependencies": {
     "chunk": "^0.0.3",
-    "vk-io": "^4.1.2"
+    "vk-io": "^4.3.0"
   },
   "devDependencies": {
     "@babel/cli": "^7.12.1",
