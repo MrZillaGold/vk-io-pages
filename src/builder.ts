@@ -476,7 +476,7 @@ export class PagesBuilder<C extends Context = Context> extends EventEmitter {
     /**
      * @private
      */
-    #executeTrigger(trigger: ITrigger['name']): ReturnType<ITrigger['callback']> {
+    executeTrigger(trigger: ITrigger['name']): ReturnType<ITrigger['callback']> {
         const triggerAction = this.#triggers.get(trigger);
 
         if (triggerAction) {
@@ -791,7 +791,7 @@ export class PagesBuilder<C extends Context = Context> extends EventEmitter {
             }
 
             if (trigger) {
-                await this.#executeTrigger(trigger);
+                await this.executeTrigger(trigger);
 
                 this.setPage();
             }
