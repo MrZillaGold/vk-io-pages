@@ -1,7 +1,7 @@
 export function randomString(length: number): string {
-    const characters = "abcdefghijklmnopqrstuvwxyz";
+    const characters = 'abcdefghijklmnopqrstuvwxyz';
 
-    let string = "";
+    let string = '';
 
     for (let i = 0; i < length; i++) {
         string += characters.charAt(Math.floor(Math.random() * characters.length));

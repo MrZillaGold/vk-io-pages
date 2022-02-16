@@ -1,8 +1,10 @@
-import { PagesBuilder, pagesStorage } from "./PagesBuilder";
+import { Context } from 'vk-io';
 
-import { Middleware, Fallback, IContext } from "./interfaces";
+import { PagesBuilder, pagesStorage } from './builder';
 
-export class PagesManager {
+import { Middleware, Fallback, PagesContext } from './types';
+
+export class PagesManager<C extends Context = Context> {
 
     fallbackHandler: Fallback;
 
@@ -10,9 +12,9 @@ export class PagesManager {
         this.fallbackHandler = null;
     }
 
-    get middleware(): Middleware {
-        return (context: IContext, next: () => void) => {
-            context.pagesBuilder = context.pageBuilder = () => new PagesBuilder({
+    get middleware(): Middleware<C> {
+        return (context: PagesContext<C>, next: () => void) => {
+            context.pagesBuilder = () => new PagesBuilder<C>({
                 context
             });
 
@@ -51,7 +53,6 @@ export class PagesManager {
     }
 }
 
-export {
-    PagesBuilder,
-    pagesStorage
-};
+export * from './builder';
+
+export * from './types';

@@ -11,8 +11,8 @@
     <img src="https://badge.fury.io/js/vk-io-pages.svg" alt="npm version" height="18">
   </a>
   
-  | 📖 [Документация](docs/introduction.md) | 🤖 [Примеры](docs/examples) |
-  | --------------------------------------- | ---------------------------- |
+  | 📖 [Документация](https://mrzillagold.github.io/vk-io-pages/index.html) | 🤖 [Примеры](examples) |
+  | ---------------------------------------------------------------------- | ---------------------- |
   
 </p>
 
@@ -20,4 +20,4 @@
 `npm i vk-io-pages`
 
 ### Демо 🎥
-<img src="https://github.com/MrZillaGold/vk-io-pages/raw/master/docs/demo.gif">
+<img src="https://github.com/MrZillaGold/vk-io-pages/raw/master/.github/demo.gif">

@@ -1,27 +1,27 @@
 {
   "name": "vk-io-pages",
-  "version": "1.7.7",
+  "version": "2.0.0",
   "description": "Модуль vk-io для создания динамических страниц",
   "scripts": {
-    "prebuild": "tsc && node --experimental-modules --es-module-specifier-resolution=node ./scripts/removeEmptyFiles.mjs",
-    "build": "babel build --out-dir lib --copy-files",
+    "build": "tsc && babel build --out-dir lib --copy-files",
     "postbuild": "node --experimental-modules --es-module-specifier-resolution=node ./scripts/cleanUp.mjs",
     "test": "npm run-script build && node --experimental-modules --experimental-json-modules node_modules/mocha/bin/_mocha --reporter spec --timeout 30000 --exit",
+    "docs": "typedoc --out docs src/manager.ts --gitRevision master",
     "eslint:check": "eslint ./src/**/*",
     "eslint:fix": "eslint ./src/**/* --fix"
   },
-  "main": "./lib/PagesManager.js",
+  "main": "./lib/manager.js",
   "exports": {
     ".": [
       {
-        "require": "./lib/PagesManager.js",
+        "require": "./lib/manager.js",
         "import": "./esm/index.mjs"
       },
-      "./lib/PagesManager.js"
+      "./lib/manager.js"
     ],
     "./esm": "./esm/index.mjs"
   },
-  "types": "./lib/interfaces.d.ts",
+  "types": "./lib/manager.d.ts",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/MrZillaGold/vk-io-pages.git"
@@ -38,9 +38,8 @@
     "pages",
     "vk-io-pages"
   ],
-  "dependencies": {
-    "chunk": "^0.0.3",
-    "vk-io": "^4.3.0"
+  "peerDependencies": {
+    "vk-io": "^4.4.0"
   },
   "devDependencies": {
     "@babel/cli": "^7.12.1",
@@ -48,12 +47,12 @@
     "@babel/plugin-proposal-nullish-coalescing-operator": "^7.12.1",
     "@babel/plugin-transform-modules-commonjs": "^7.12.1",
     "@babel/preset-env": "^7.12.1",
-    "@types/chunk": "*",
     "@types/node": "^17.0.5",
     "@typescript-eslint/eslint-plugin": "^5.0.0",
     "@typescript-eslint/parser": "^5.0.0",
     "eslint": "^8.0.0",
     "mocha": "^9.0.0",
+    "typedoc": "^0.22.11",
     "typescript": "^4.1.3"
   }
 }

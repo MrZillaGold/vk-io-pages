@@ -1,5 +1,4 @@
-import VKIOPages from "../lib/PagesManager.js";
+import VKIOPages from '../lib/manager';
 
 export default VKIOPages;
-
-export const { PagesManager, PagesBuilder, hasBuilder, pagesStorage } = VKIOPages;
+export * from '../lib/manager';

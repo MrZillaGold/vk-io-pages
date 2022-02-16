@@ -6,6 +6,7 @@
 /test
 /src
 /build
+/examples
 .gitignore
 .eslintrc.json
 babel.config.json

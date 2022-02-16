@@ -1,10 +1,7 @@
 {
-  "include": [
-    "src"
-  ],
   "compilerOptions": {
     "lib": [
-      "es6",
+      "ESNext",
       "dom",
       "dom.iterable"
     ],
@@ -15,6 +12,9 @@
     "esModuleInterop": true,
     "module": "ESNext",
     "moduleResolution": "node",
-    "target": "ES2020"
-  }
+    "target": "ESNext"
+  },
+  "include": [
+    "src/**/*.ts"
+  ]
 }
