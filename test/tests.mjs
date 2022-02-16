@@ -1,7 +1,7 @@
-import assert from "assert";
-import { VK, getRandomId, Keyboard } from "vk-io";
+import assert from 'assert';
+import { VK, getRandomId, Keyboard } from 'vk-io';
 
-import { PagesBuilder, PagesManager } from "../esm/index.mjs";
+import { PagesBuilder, PagesManager } from '../esm/index.mjs';
 
 const token = process.env.TOKEN;
 
@@ -24,8 +24,8 @@ const builder = new PagesBuilder({
     context: createContext()
 });
 
-describe("Pages", () => {
-    const page = "Test";
+describe('Pages', () => {
+    const page = 'Test';
 
     const pages = [
         page,
@@ -40,7 +40,7 @@ describe("Pages", () => {
         )
     ];
 
-    it("Установка и получение установленых страниц", async () => {
+    it('Установка и получение установленых страниц', async () => {
         builder.setPages(pages);
 
         for (let i = 1; i <= builder.pages.length; i++) {
@@ -54,17 +54,17 @@ describe("Pages", () => {
     });
 
     if (token) {
-        it("Сборка и отправка одной страницы", async () => {
-            builder.setPages("Test");
+        it('Сборка и отправка одной страницы', async () => {
+            builder.setPages('Test');
 
             builder.sentContext = createContext();
 
             await builder.build();
         });
 
-        it("Сборка и отправка страниц разного типа", async () => {
+        it('Сборка и отправка страниц разного типа', async () => {
             builder.setPages(pages);
-            builder.addPages("Test");
+            builder.addPages('Test');
             builder.addPages(pages);
 
             builder.sentContext = createContext();
@@ -81,18 +81,20 @@ describe("Pages", () => {
         });
     }
 
-    it("Изменение метода отправки страниц и проверка изменений", () => {
-        builder.setSendMethod("edit");
+    it('Изменение метода отправки страниц и проверка изменений', () => {
+        const sendMethod = 'editMessage';
 
-        assert.ok(builder.sendMethod === "edit");
+        builder.setSendMethod(sendMethod);
+
+        assert.ok(builder.sendMethod === sendMethod);
     });
 });
 
-describe("Keyboard", () => {
-    it("Обновление клавиатуры и проверка изменений", () => {
+describe('Keyboard', () => {
+    it('Обновление клавиатуры и проверка изменений', () => {
         const keyboard = Keyboard.builder()
             .textButton({
-                label: "test"
+                label: 'test'
             });
 
         builder.updateKeyboard(keyboard);
@@ -101,15 +103,15 @@ describe("Keyboard", () => {
     });
 });
 
-describe("Listen", () => {
-    it("Установка пользователей для прослушивания и проверка изменений", () => {
+describe('Listen', () => {
+    it('Установка пользователей для прослушивания и проверка изменений', () => {
         builder.setListenUsers(1);
         builder.addListenUsers([2]);
 
         assert.deepStrictEqual(builder.listenUsers, [1, 2]);
     });
 
-    it("Установка времени прослушивания и проверка изменений", () => {
+    it('Установка времени прослушивания и проверка изменений', () => {
         const listenTime = 10000;
 
         builder.setListenTime(listenTime);
@@ -118,7 +120,7 @@ describe("Listen", () => {
     });
 
     if (token) {
-        it("Остановка прослушивания", () => {
+        it('Остановка прослушивания', () => {
             builder.stopListen();
 
             assert.ok(PagesManager.hasBuilder(builder.id) === false);
@@ -126,12 +128,12 @@ describe("Listen", () => {
     }
 });
 
-describe("Triggers", () => {
-    it("Установка триггеров и проверка работы одного из них", async () => {
+describe('Triggers', () => {
+    it('Установка триггеров и проверка работы одного из них', async () => {
         let number = 1;
 
         builder.setTriggers({
-            name: "test",
+            name: 'test',
             callback() {
                 number = 2;
             }
@@ -139,12 +141,12 @@ describe("Triggers", () => {
 
         builder.addTriggers([
             {
-                name: "test2",
+                name: 'test2',
                 callback() {}
             }
         ]);
 
-        await builder.executeTrigger("test");
+        await builder.executeTrigger('test');
 
         assert.ok(number === 2);
     });
